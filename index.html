@@ -13,26 +13,56 @@
             height: 100%;
             width: 100%;
         }
+     
+    
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.22/"></script>
-    <script>
-        require(["esri/Map", "esri/views/SceneView"], (Map, SceneView) => {
+    
+</head>
+<body>
+    <div id="output"></div>
+
+    <input type="submit" value="Get from Storyline" onclick="getfromstoryline();">
+
+    <div id="viewDiv">  </div>
+
+    <script language="javascript" type="text/javascript">
+        //var sValue;
+        //console.log("sValue1: " + sValue);
+
+
+        require([
+            "esri/Map",
+            "esri/views/SceneView",
+        ], (Map, SceneView) => {
+            // Create the Map
             const map = new Map({
                 basemap: "topo-vector",
                 ground: "world-elevation"
             });
+
             const view = new SceneView({
                 container: "viewDiv", // Reference to the scene div created in step 5
                 map: map, // Reference to the map object created before the scene
                 scale: 50000000, // Sets the initial scale to 1:50,000,000
-                center: [0, 0],// Sets the center point of view with lon/lat
-                
             });
         });
+
+        function getfromstoryline() {
+            var player = parent.GetPlayer();
+            var sValue = player.GetVar("StorylineVar");
+            console.log("sValue2: " + sValue);
+            document.getElementById('output').innerHTML = sValue;
+
+            const view = new SceneView({
+                center: [sValue, 0],// Sets the center point of view with lon/lat
+            });
+        }
+
+
+
     </script>
-</head>
-<body>
-    <div id="viewDiv"></div>
+
 </body>
 </html>
