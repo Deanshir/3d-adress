@@ -13,56 +13,51 @@
             height: 100%;
             width: 100%;
         }
-     
-    
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.22/"></script>
-    
+
 </head>
 <body>
-    <div id="output"></div>
-
-    <input type="submit" value="Get from Storyline" onclick="getfromstoryline();">
-
+    <!--<input type="submit" value="Get from Storyline" onclick="getfromstoryline();">-->
     <div id="viewDiv">  </div>
 
-    <script language="javascript" type="text/javascript">
-        //var sValue;
-        //console.log("sValue1: " + sValue);
+
+    <script>
+        var sValue;
+        console.log("sValue1: " + sValue);
 
 
-        require([
-            "esri/Map",
-            "esri/views/SceneView",
-        ], (Map, SceneView) => {
-            // Create the Map
+        require(["esri/Map", "esri/views/SceneView", "esri/widgets/Search"], (
+            Map,
+            SceneView,
+            Search
+        ) => {
             const map = new Map({
-                basemap: "topo-vector",
+                basemap: "satellite",
                 ground: "world-elevation"
             });
 
             const view = new SceneView({
-                container: "viewDiv", // Reference to the scene div created in step 5
-                map: map, // Reference to the map object created before the scene
-                scale: 50000000, // Sets the initial scale to 1:50,000,000
+                scale: 123456789,
+                container: "viewDiv",
+                map: map
+
+            });
+
+            const searchWidget = new Search({
+                view: view
+
+            });
+
+            // Add the search widget to the top right corner of the view
+            view.ui.add(searchWidget, {
+                position: "top-right",
             });
         });
-
-        function getfromstoryline() {
-            var player = parent.GetPlayer();
-            var sValue = player.GetVar("StorylineVar");
-            console.log("sValue2: " + sValue);
-            document.getElementById('output').innerHTML = sValue;
-
-            const view = new SceneView({
-                center: [sValue, 0],// Sets the center point of view with lon/lat
-            });
-        }
-
-
-
     </script>
+
+
 
 </body>
 </html>
