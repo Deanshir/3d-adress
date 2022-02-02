@@ -1,99 +1,19 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Search Widget 3D - 4.3</title>
-
-    <style>
-        html,
-        body,
-        #viewDiv {
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            width: 100%;
-        }
-    </style>
-
-    <!--API להצבת מודל הגלובוס (עיצוב+מפה)-->
-    <link rel="stylesheet" href="https://js.arcgis.com/4.3/esri/css/main.css">
-    <script src="https://js.arcgis.com/4.3/"></script>
-
-    <script>
-        require([
-            "esri/Map",
-            "esri/views/SceneView",
-            "esri/widgets/Search",
-            "dojo/domReady!"
-        ], function (
-            Map,
-            SceneView,
-            Search) {
-
-            //יצירת מפה
-            var map = new Map({
-                basemap: "satellite",
-                ground: "world-elevation"
-            });
-
-            //הצגת מפה כתלת מימד
-            var view = new SceneView({
-                scale: 123456789,
-                container: "viewDiv",
-                map: map
-            });
-
-            //הוספת פונקציית חיפוש-אנימציית התמקדות בכתובת ייעודית
-            var searchWidget = new Search({
-                view: view
-            });
-
-            function getfromstoryline() {
-                var player = parent.GetPlayer();
-                var sValue = player.GetVar("StorylineVar");
-                document.getElementById('output').innerHTML = sValue;
-            }
-
-           
-        });
-        var sValue;
-        function getfromstoryline() {
-            var player = parent.GetPlayer();
-            sValue = player.GetVar("StorylineVar");
-
-        }
-        document.getElementById('input').value = sValue;
-
-        console.log(document.getElementById("submitButton"))
-        document.getElementById("submitButton").onclick = (e) => {
-            e.preventDefault()
-            let el = document.getElementById("input")
-            console.log(el.value)
-            searchWidget.search(el.value).then((result) => {
-                console.log("result", result)
-            })
-        }
-
-    </script>
-</head>
-
 <body>
-    Storyline Variable:
-    <div id="output"></div>
-    <br><br>
-    <input type="submit" value="Get from Storyline" onclick="getfromstoryline();">
 
-    <!--<input type="submit" value="Get from Storyline" onclick="getfromstoryline();" id="submitButton">-->
-    <div id="viewDiv"></div>
-    <!--<div>
+Storyline Variable:
+<div id="output"></div>
+<br><br>
+<input type="submit" value="Get from Storyline" onclick="getfromstoryline();">
 
+<script language="javascript" type="text/javascript">
+function getfromstoryline() {
+	var player = parent.GetPlayer();
+	var sValue = player.GetVar("StorylineVar");
+	document.getElementById('output').innerHTML = sValue;
+}
+</script>
 
-        <input type="text" id="input">
-        <button id="submitButton">Submit</button>
-
-    </div>
-    <div id="viewDiv"></div>-->
 </body>
-
 </html>
