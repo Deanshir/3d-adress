@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Search Widget 3D - 4.3</title>
+    <title>Final Project-3D Map Address</title>
 
     <style>
         html,
@@ -19,6 +19,14 @@
 
         .center {
             text-align: center;
+            padding: 5px;
+        }
+        #instruction {
+            font-size: 14pt;
+            color: white;
+            text-align: center;
+            font-family: 'Assistant', sans-serif;
+            font-weight: bold;
         }
 
         #input {
@@ -31,11 +39,12 @@
 
         #submitButton {
             background-color: #EFCF9B;
-            border-radius: 12px;
+            border-radius: 14px;
             height: 30px;
             width: 130px;
             font-weight: bold;
             font-family: 'Assistant', sans-serif;
+            font-size: 14pt;
         }
     </style>
 
@@ -91,13 +100,10 @@
 
 <body>
     <div>
-        <form class="center" >
-           
-                <input placeholder="Enter your address" type="text" id="input"><br />
-                <button id="submitButton">קח אותי הביתה</button>
-           
-           
-
+        <form class="center" >    
+            <a id="instruction">לחצו על "קח אותי הביתה" בכדי לעבור ללוקיישן</a> <br />
+            <input placeholder="Enter your address" type="text" id="input">
+            <button id="submitButton">קח אותי הביתה</button>
         </form>
     </div>
     <div id="viewDiv"></div>
