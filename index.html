@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -21,6 +21,7 @@
             text-align: center;
             padding: 5px;
         }
+
         #instruction {
             font-size: 14pt;
             color: white;
@@ -52,7 +53,6 @@
     <script src="https://js.arcgis.com/4.3/"></script>
 
     <script>
-
         //יצירת מפה תלת מימד
         require([
             "esri/Map",
@@ -77,11 +77,12 @@
                 map: map
             });
 
-
+            //הוספת בר חיפוש
             var searchWidget = new Search({
                 view: view
             });
 
+            //פונקציה להפעלת אנימציית לוקיישן
             console.log(document.getElementById("submitButton"))
             document.getElementById("submitButton").onclick = (e) => {
                 e.preventDefault()
@@ -92,21 +93,22 @@
                 })
             }
         });
-
-
     </script>
-
 </head>
 
 <body>
     <div>
-        <form class="center" >    
+        <!--//הוראות-->
+        <form class="center">
             <a id="instruction">לחצו על "קח אותי הביתה" בכדי לעבור ללוקיישן</a> <br />
             <input placeholder="Enter your address" type="text" id="input">
             <button id="submitButton">קח אותי הביתה</button>
         </form>
     </div>
+    <!--//מפה תלת מימד-->
     <div id="viewDiv"></div>
+
+    <!--//קוד לשאיבת מידע מהסטוריליין-->
     <script>
         var player = parent.GetPlayer();
         var sValue = player.GetVar("varAdress");
@@ -114,5 +116,4 @@
         document.getElementById("input").value = sValue;
     </script>
 </body>
-
 </html>
