@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>סנכרון מפות</title>
+
+    <link rel="stylesheet"
+          href="https://js.arcgis.com/4.4/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.4/"></script>
+
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/views/SceneView",
+            "esri/Graphic",
+            "esri/geometry/Point",
+            "esri/geometry/Polyline",
+            "esri/geometry/Polygon",
+            "esri/symbols/SimpleMarkerSymbol",
+            "esri/symbols/SimpleLineSymbol",
+            "esri/symbols/SimpleFillSymbol",
+            "dojo/domReady!"
+        ], (
+            Map, MapView, SceneView,
+            Graphic, Point, Polyline, Polygon,
+            SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol
+        )  => {
+            const map = new Map({
+                basemap: "satellite"
+            });
+
+            const view1 = new SceneView({
+                container: "view1Div",
+                map: map
+                
+            });
+
+            const view2 = new MapView({
+                container: "view2Div",
+                map: map,
+                constraints: {
+                    // Disable zoom snapping to get the best synchronization
+                    snapToZoom: false,
+                    rotationEnabled: false
+                }
+            });
+
+            // יצירת נקודה ומיקום ברירת מחדל שלה
+            var point = new Point({
+                longitude: 31,
+                latitude:32
+            });
+
+            // יצירת גרפיקה של נקודה
+            var markerSymbol = new SimpleMarkerSymbol({
+                color: [139, 0, 0],
+                outline: { // קו חיצוני
+                    color: [255, 255, 255],
+                    width: 1
+                }
+            });
+
+            // הלבשת הגרפיקה על הנקודה
+            var pointGraphic = new Graphic({
+                geometry: point,
+                symbol: markerSymbol
+            });
+
+            // Add the graphics to the view's graphics layer
+            view2.graphics.addMany([pointGraphic]);
+            view1.graphics.addMany([pointGraphic]);
+
+
+            let draggingGraphic;
+            let tempGraphic;
+
+            view2.on("drag", function (evt) {
+                // if this is the starting of the drag, do a hitTest
+                if (evt.action === 'start') {
+                    view2.hitTest(evt).then(resp => {
+                        if (resp.results[0].graphic && resp.results[0].graphic.geometry.type === 'point') {
+                            evt.stopPropagation();
+                            // if the hitTest returns a point graphic, set dragginGraphic
+                            draggingGraphic = resp.results[0].graphic;
+                        }
+                    });
+                } else if (evt.action === 'update') {
+                    // on drag update events, only continue if a draggingGraphic is set
+                    if (draggingGraphic) {
+                        evt.stopPropagation();
+                        // if there is a tempGraphic, remove it
+                        if (tempGraphic) {
+                            view2.graphics.remove(tempGraphic);
+                            view1.graphics.remove(tempGraphic);
+                        } else {
+                            // if there is no tempGraphic, this is the first update event, so remove original graphic
+                            view2.graphics.remove(draggingGraphic);
+                            view1.graphics.remove(draggingGraphic);
+
+                        }
+                        // create new temp graphic and add it
+                        tempGraphic = draggingGraphic.clone();
+                        tempGraphic.geometry = view2.toMap(evt);
+                        view2.graphics.add(tempGraphic);
+                        view1.graphics.add(tempGraphic);
+
+                    }
+
+                } else if (evt.action === 'end') {
+                    // on drag end, continue only if there is a draggingGraphic
+                    if (draggingGraphic) {
+                        evt.stopPropagation();
+                        // rm temp
+                        if (tempGraphic) view2.graphics.remove(tempGraphic);
+                        if (tempGraphic) view1.graphics.remove(tempGraphic);
+
+                        // create new graphic based on original dragging graphic
+                        let newGraphic = draggingGraphic.clone();
+                        newGraphic.geometry = tempGraphic.geometry.clone();
+                        console.log("קו רוחב: " + newGraphic.geometry.latitude)
+                        console.log("קו אורך: " + newGraphic.geometry.longitude)
+
+                        // add replacement graphic
+                        view2.graphics.add(newGraphic);
+                        view1.graphics.add(newGraphic);
+
+                        // reset vars
+                        draggingGraphic = null;
+                        tempGraphic = null;
+                    }
+                }
+            });
+            view1.on("drag", function (evt) {
+                // if this is the starting of the drag, do a hitTest
+                if (evt.action === 'start') {
+                    view1.hitTest(evt).then(resp => {
+                        if (resp.results[0].graphic && resp.results[0].graphic.geometry.type === 'point') {
+                            evt.stopPropagation();
+                            // if the hitTest returns a point graphic, set dragginGraphic
+                            draggingGraphic = resp.results[0].graphic;
+                        }
+                    });
+                } else if (evt.action === 'update') {
+                    // on drag update events, only continue if a draggingGraphic is set
+                    if (draggingGraphic) {
+                        evt.stopPropagation();
+                        // if there is a tempGraphic, remove it
+                        if (tempGraphic) {
+                          view1.graphics.remove(tempGraphic);
+                          view2.graphics.remove(tempGraphic);
+                        } else {
+                            // if there is no tempGraphic, this is the first update event, so remove original graphic
+                          view1.graphics.remove(draggingGraphic);
+                          view2.graphics.remove(draggingGraphic);
+
+                        }
+                        // create new temp graphic and add it
+                        tempGraphic = draggingGraphic.clone();
+                       tempGraphic.geometry = view2.toMap(evt);
+                        view1.graphics.add(tempGraphic);
+                        view2.graphics.add(tempGraphic);
+
+                    }
+
+                } else if (evt.action === 'end') {
+                    // on drag end, continue only if there is a draggingGraphic
+                    if (draggingGraphic) {
+                        evt.stopPropagation();
+                        // rm temp
+                        if (tempGraphic) view1.graphics.remove(tempGraphic);
+                        if (tempGraphic) view2.graphics.remove(tempGraphic);
+
+                        // create new graphic based on original dragging graphic
+                        let newGraphic = draggingGraphic.clone();
+                        newGraphic.geometry = tempGraphic.geometry.clone();
+                        console.log("קו רוחב: " + newGraphic.geometry.latitude)
+                        console.log("קו אורך: " + newGraphic.geometry.longitude)
+
+                        // add replacement graphic
+                        view1.graphics.add(newGraphic);
+                        view2.graphics.add(newGraphic);
+
+                        // reset vars
+                        draggingGraphic = null;
+                        tempGraphic = null;
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="view1Div" style="float: left; width: 50%; height: 100%"></div>
+    <div id="view2Div" style="float: left; width: 50%; height: 100%"></div>
+</body>
+
+</html>
