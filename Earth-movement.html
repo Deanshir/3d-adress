@@ -1,0 +1,126 @@
+﻿
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>
+        תנועת כדור הארץ
+    </title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.22/"></script>
+
+    <style>
+        html,
+        body,
+        #viewDiv,
+        #container {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            font-family: Assistant;
+           
+        }
+
+        .buttons {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .esri-button {
+            display: inline;
+            max-width: 150px;
+            background-color:black;
+            font-weight: bold;
+        }
+       
+        #viewDiv canvas {
+            filter: saturate(1.2) drop-shadow(0 0 20px white);
+        }
+    </style>
+
+    <script>
+        require([
+            "esri/config",
+            "esri/Map",
+            "esri/views/SceneView",
+            "esri/layers/TileLayer",
+            "esri/layers/GeoJSONLayer",
+            "esri/Basemap",
+            "esri/layers/ElevationLayer",
+            "esri/layers/BaseElevationLayer",
+            "esri/Graphic",
+            "esri/geometry/Point",
+            "esri/geometry/Mesh",
+            "esri/core/watchUtils",
+            ],
+            function (
+            esriConfig,
+            Map,
+            SceneView,
+            TileLayer,
+            GeoJSONLayer,
+            Basemap,
+            ElevationLayer,
+            BaseElevationLayer,
+            Graphic,
+            Point,
+            Mesh,
+            watchUtils
+        ) {
+
+            esriConfig.apiKey = "AAPKe3375e799b184fbf9188ee492822af6efBiEsB6t1pP4zD5k_8XWVIqPszN1t1sB0slUBBqPN4XB27MlNmmzUOaC3WKd8Xz8";
+
+            const map = new Map({
+                basemap: "hybrid",
+                zoom: -1,
+            })
+
+            const view = new SceneView({
+                container: "viewDiv",
+                map: map
+            })
+
+            let isPlaying = true;
+
+            view.when(function () {
+                watchUtils.whenFalseOnce(view, "updating", rotate)
+            });
+
+            function rotate() {
+                if (isPlaying) {
+                    const camera = view.camera.clone()
+                    camera.position.longitude -= 0.2 //מהירות התנועה
+                    view.goTo(camera, { animate: false })
+                    requestAnimationFrame(rotate)
+                }
+            }
+      
+            document.getElementById("animate").addEventListener("click", function () {
+                if (isPlaying) {
+                    isPlaying = false;
+                    this.innerHTML = "הפעל אנימציה";
+                } else {
+                    isPlaying = true;
+                    this.innerHTML = "עצור אנימציה"
+                    rotate();
+                }
+            });
+
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+    <div class="buttons">
+        <button id="animate"
+                class="esri-button">
+            עצור סיבוב
+        </button>
+    </div>
+</body>
+</html>
