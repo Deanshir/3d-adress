@@ -1,4 +1,4 @@
-﻿
+
 <html>
 <head>
     <meta charset="utf-8" />
@@ -32,8 +32,10 @@
         .esri-button {
             display: inline;
             max-width: 150px;
-            background-color:black;
+            background-color: black;
             font-weight: bold;
+            border-radius: 10px;
+            border-width: 2px;
         }
        
         #viewDiv canvas {
@@ -46,42 +48,33 @@
             "esri/config",
             "esri/Map",
             "esri/views/SceneView",
-            "esri/layers/TileLayer",
-            "esri/layers/GeoJSONLayer",
-            "esri/Basemap",
-            "esri/layers/ElevationLayer",
-            "esri/layers/BaseElevationLayer",
-            "esri/Graphic",
-            "esri/geometry/Point",
-            "esri/geometry/Mesh",
             "esri/core/watchUtils",
-            ],
+        ],
             function (
-            esriConfig,
-            Map,
-            SceneView,
-            TileLayer,
-            GeoJSONLayer,
-            Basemap,
-            ElevationLayer,
-            BaseElevationLayer,
-            Graphic,
-            Point,
-            Mesh,
-            watchUtils
-        ) {
+                esriConfig,
+                Map,
+                SceneView,
+                watchUtils,
+            ) {
 
-            esriConfig.apiKey = "AAPKe3375e799b184fbf9188ee492822af6efBiEsB6t1pP4zD5k_8XWVIqPszN1t1sB0slUBBqPN4XB27MlNmmzUOaC3WKd8Xz8";
+                esriConfig.apiKey = "AAPKe3375e799b184fbf9188ee492822af6efBiEsB6t1pP4zD5k_8XWVIqPszN1t1sB0slUBBqPN4XB27MlNmmzUOaC3WKd8Xz8";
 
-            const map = new Map({
-                basemap: "hybrid",
-                zoom: -1,
-            })
+                const map = new Map({
+                    basemap: "hybrid"
+                })
 
-            const view = new SceneView({
-                container: "viewDiv",
-                map: map
-            })
+                const view = new SceneView({
+                    container: "viewDiv",
+                    map: map,
+                    environment: {
+                        lighting: {
+                            date: new Date('null')
+                        }
+                    }
+                })
+            
+
+             
 
             let isPlaying = true;
 
@@ -109,8 +102,7 @@
                 }
             });
 
-
-        });
+          });
     </script>
 </head>
 
