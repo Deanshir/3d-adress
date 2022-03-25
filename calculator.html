@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחשבון</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Spartan&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Saira:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <!--<link rel="stylesheet" href="calc.css">-->
+    <style>
+        :root {
+            --t1-main-bg: hsl(222, 26%, 31%);
+            --t1-calc-title: #f4fcfd;
+            --t1-buttons-container: #242c44;
+            --t1-toggle-bg: hsl(223, 31%, 20%);
+            --t1-toggle-btn: #d93a36;
+            --t1-upper-screen-div: hsl(224, 36%, 15%);
+            --t1-screen-text: #fffeff;
+            --t1-keys-div-bg: #212e42;
+            --t1-num-key-bg-1: #e8e3da;
+            --t1-num-text-1: #464c58;
+            --t1-num-key-bg-2: hsl(225, 21%, 49%);
+            --t1-unique-key-border: #404e76;
+            --t1-equals-border: #92271b;
+            --t1-num-text-2: #f4fcfd;
+            --t1-equals: #d13f30;
+            --t2-equals-border: #93261b;
+            --t2-main-bg: #e6e7e7;
+            --t2-unique-key-border: #1b5f67;
+            --t2-equals-border: #873900;
+            --t2-buttons-container: #d3cfcd;
+            --t2-calc-title: #35342a;
+            --t2-toggle-bg: #cfced3;
+            --t2-toggle-btn: #c85303;
+            --t2-upper-screen-div: #eeefef;
+            --t2-screen-text: #35342a;
+            --t2-keys-div-bg: #d2cdcc;
+            --t2-num-key-bg-1: #e5e5e1;
+            --t2-num-text-1: #3e3e38;
+            --t2-num-key-border-1: #a99c91;
+            --t2-num-key-bg-2: #388184;
+            --t2-num-text-2: #ebfdfc;
+            --t2-num-key-border-2: #1b6067;
+            --t2-equals: #c95400;
+            --t2-equals-border: #863800;
+        }
+
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+
+        .background {
+            font-family: 'Spartan', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--t1-main-bg);
+            transition: background-color 0.5s ease;
+        }
+
+        .background-light {
+            background-color: var(--t2-main-bg);
+        }
+
+        .calc-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 35rem;
+            width: 30rem;
+        }
+
+        .calc-title {
+            position: relative;
+            left: 1.6em;
+            font-weight: bold;
+            color: var(--t1-calc-title);
+            font-size: 16pt;
+            transition: color 0.5s ease;
+            font-family: Assistant;
+            opacity: 0;
+        }
+
+        .theme-switch-container {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            background-color: var(--t1-toggle-bg);
+            width: 3.8em;
+            height: 2.3em;
+            left: 0;
+            top: -0.4em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.5s ease;
+        }
+
+        .theme-palette {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+
+        .fa-palette {
+            position: absolute;
+            top: 0;
+            z-index: 1000;
+            color: white;
+            font-size: 1.5em;
+            transition: color 0.5s ease;
+        }
+
+        .fa-lightbulb, .fa-moon {
+            opacity: 1;
+            position: absolute;
+            font-size: 1em;
+            color: var(--t1-calc-title);
+            transition: opacity 0.5s ease;
+        }
+
+        .fa-display-none {
+            opacity: 0;
+        }
+
+        .calc-title-light {
+            color: var(--t2-calc-title);
+        }
+
+        .theme-switch-container-light {
+            background-color: var(--t2-toggle-bg);
+        }
+
+        .theme-toggle-btn {
+            position: absolute;
+            background-color: var(--t1-toggle-btn);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 1.5em;
+            width: 1.5em;
+            border-radius: 50%;
+            right: 1.8em;
+            transition: all 0.2s ease-out;
+        }
+
+        .theme-toggle-btn-light {
+            background-color: var(--t2-toggle-btn);
+        }
+
+        .theme-switch-toggle {
+            right: 0.5em;
+        }
+
+        .screen-container {
+            overflow: hidden;
+            background-color: var(--t1-upper-screen-div);
+            position: relative;
+            margin-top: 2em;
+            height: 6em;
+            width: 30em;
+            padding: 2em;
+            border-radius: 10px;
+            transition: background-color 0.5s ease;
+        }
+
+        .screen-container-light {
+            background-color: var(--t2-upper-screen-div);
+        }
+
+        .screen-text {
+            position: absolute;
+            right: 0.5em;
+            top: 0.5em;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--t1-screen-text);
+            transition: all 0.5s ease;
+        }
+
+        .screen-text-after {
+            position: absolute;
+            font-size: 1em;
+            bottom: -1em;
+            right: 0.5em;
+            color: var(--t1-screen-text);
+            transition: color 0.5s ease;
+            opacity: 0.6;
+        }
+
+        .screen-text-after-light {
+            color: var(--t2-screen-text);
+        }
+
+        .screen-text-light {
+            color: var(--t2-screen-text);
+        }
+
+        .buttons-container {
+            background-color: var(--t1-buttons-container);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 2em;
+            border-radius: 15px;
+            height: 25em;
+            width: 30em;
+            transition: background-color 0.5s ease;
+        }
+
+        .buttons-container-light {
+            background-color: var(--t2-buttons-container);
+        }
+
+        .buttons-row {
+            padding: 1em;
+            height: 100%;
+            width: 100%;
+        }
+
+        .button-div {
+            padding: 0.6em;
+        }
+
+        .button {
+            height: 100%;
+            width: 100%;
+            background-color: currentColor;
+            font-family: 'Saira', sans-serif;
+            font-weight: bold;
+            font-size: 1.5em;
+            border-radius: 10px;
+            outline: none !important;
+            border: none;
+            box-shadow: none;
+            transition: background-color 0.5s ease, box-shadow 0s ease;
+        }
+
+        .button-light {
+            background-color: var(--t2-num-key-bg-1);
+        }
+
+        .button-dark {
+            background-color: var(--t1-num-key-bg-1);
+            color: var(--t1-num-text-1);
+            border: solid 0px;
+            border-color: var(--t2-num-key-border-1);
+            border-bottom-width: 4px;
+        }
+
+        .button:active {
+            box-shadow: inset 2px 2px 5px #555555;
+            border: none;
+        }
+
+        .button-clicked {
+            box-shadow: inset 2px 2px 5px #555555;
+            border: none;
+        }
+
+
+        .unique-btn-dark {
+            background-color: var(--t1-num-key-bg-2);
+            color: var(--t1-num-text-2);
+            border-color: var(--t1-unique-key-border);
+            transition: background-color 0.5s ease;
+        }
+
+        .unique-btn-light {
+            background-color: var(--t2-num-key-bg-2);
+        }
+
+        .equals-dark {
+            background-color: var(--t1-equals);
+            color: var(--t1-num-text-2);
+            border-color: var(--t1-equals-border);
+            transition: background-color 0.5s ease;
+        }
+
+        .equals-light {
+            background-color: var(--t2-equals);
+        }
+
+        .buttonClicked {
+            box-shadow: inset 2px 2px 4px black;
+            border: none;
+        }
+
+        @media screen and (max-width: 50px) {
+            .calc-container {
+                width: 20rem;
+            }
+
+            .button-div {
+                padding: 0.4em;
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+    <div id="background" class="background">
+        <div class="calc-container container-fluid">            
+            <div class="row">
+            <div class="calc-title calc-title-dark">מחשבון</div>               
+                <div id="themeSwitch" class="theme-switch-container">
+                    <div id="themeToggleBtn" class="theme-toggle-btn">
+                        <i class="far fa-lightbulb fa-display-none"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>                    
+                </div>
+                <div id="screenContainer" class="screen-container">
+                    <p class="screen-text">
+                        0                        
+                    </p>
+                    <p class="screen-text-after">                                                                     
+                    </p>
+                </div>
+                <div class="container-fluid buttons-container">
+                    <div class="row buttons-row">
+                        <div class="col-3 button-div">      
+                            <button class="button button-dark">7</button>
+                    </div>
+                    <div class="col-3 button-div">
+                        <button class="button button-dark">8</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">9</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark unique-btn-dark">DEL</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">4</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">5</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">6</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">+</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">1</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">2</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">3</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">-</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">.</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">0</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">/</button>            
+                    </div>
+                    <div class="col-3 button-div">            
+                        <button class="button button-dark">x</button>            
+                    </div>
+                    <div class="col-6 button-div">            
+                        <button class="button button-dark unique-btn-dark">RESET</button>            
+                    </div>
+                    <div class="col-6 button-div">            
+                        <button class="button button-dark equals-dark">=</button>            
+                    </div>                                
+                </div>                
+            </div>
+        </div>
+        </div>       
+    </div>
+    <!--<script src="calc.js"></script>-->
+    <script>
+        let themeSwitchContainer = document.getElementById('themeSwitch');
+        let background = document.getElementById('background');
+        let calcTitle = document.querySelector('.calc-title');
+        let screen = document.getElementById('screenContainer');
+        let btnContainer = document.querySelector('.buttons-container');
+        let btns = document.querySelectorAll('button');
+        let screenText = document.querySelector('.screen-text');
+        let screenTextAfter = document.querySelector('.screen-text-after');
+        //Declaration of some global variables
+        var nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
+        var symbols = ['+', '-', '/', 'x', 'RESET', 'DEL', '='];
+        var compNums = [];
+        var compSymbols = [];
+        var mainScreenInput = "";
+        var secScreenInput = "";
+        var screenIsEmpty = true;
+        var updatedMainString = "";
+        var updatedSecString = "";
+        var isResultCalled = false;
+
+        function resetEverything() {
+            screenText.style.top = "0.5";
+            screenText.style.fontSize = "2.5em";
+            console.log('reset called');
+            compNums = [];
+            compSymbols = [];
+            mainScreenInput = "";
+            secScreenInput = "";
+            screenIsEmpty = true;
+            updatedMainString = "";
+            updatedSecString = "";
+            screenText.textContent = "0";
+            screenTextAfter.textContent = "";
+            isResultCalled = false;
+        }
+
+        //THIS FUNCTION IS TO UPDATE THE SCREEN'S TOP NUMBERS
+        //WHICH INITIALLY START OFF AS 0
+        function updateMainScreenText(input) {
+            mainScreenInput += input;
+            if (mainScreenInput != "0") {
+                screenText.textContent = mainScreenInput;
+            }
+            if (screenText.textContent.length > 10 && screenText.textContent.length <= 14) {
+                screenText.style.top = "0.8";
+                screenText.style.fontSize = "2em";
+            } else if (screenText.textContent.length > 14) {
+                screenText.style.top = "1";
+                screenText.style.fontSize = "1.8em";
+            } else {
+                screenText.style.top = "0.5";
+                screenText.style.fontSize = "2.5em";
+            }
+        }
+
+        //THIS FUNCTION IS USED TO UPDATE THE SECONDARY SCREEN NUMBERS
+        //WHICH INITIALLY START OFF AS EMPTY
+        function updateSecScreenText(input) {
+            secScreenInput += input;
+            console.log(secScreenInput);
+            screenTextAfter.textContent = secScreenInput;
+        }
+
+        //BASICALLY ADDS THE NUMBERS AND SYMBOLS TOKENS INTO THEIR RESPECTIVE ARRAYS
+        function compute(symbol) {
+            isResultCalled = false;
+            compNums.push(screenText.textContent);
+            compSymbols.push(symbol);
+            if (screenText.textContent != "0") {
+                screenText.textContent = "0";
+                mainScreenInput = "";
+            }
+            if (symbols.includes(secScreenInput.substr(-1)) === false && screenIsEmpty === false) {
+                updateSecScreenText(symbol);
+                console.log(compNums);
+                console.log(compSymbols);
+            }
+        }
+
+        //THE MAIN FUNCTION WHICH DETERMINES WHAT HAPPENS WHEN A PARTICULAR BUTTON
+        //IS CLICKED
+        function btnClicked(arg) {
+            var input = arg.toString();
+            if (nums.includes(input)) {
+                if (isResultCalled) {
+                    resetEverything();
+                }
+                if (screenIsEmpty === true && input === "0") {
+                    return;
+                }
+                if (mainScreenInput.indexOf('.') >= 0 && mainScreenInput.substr(-1) === "0" && input === "0") {
+                    console.log(mainScreenInput);
+                    return;
+                }
+                if (mainScreenInput.indexOf(".") >= 0 && input === ".") {
+                    return;
+                }
+                screenIsEmpty = false;
+                updateMainScreenText(input);
+                updateSecScreenText(input);
+            } else if (symbols.includes(arg)) {
+                var input = arg.toString();
+                console.log(input);
+                switch (input) {
+                    case "+":
+                        compute("+");
+                        break;
+                    case "-":
+                        compute("-");
+                        break;
+                    case "/":
+                        compute("/");
+                        break;
+                    case "x":
+                        compute("x");
+                        break;
+                    case "=":
+                        isResultCalled = true;
+                        if (symbols.includes(screenTextAfter.textContent.substr(-1)) === true) {
+                            screenTextAfter.textContent = secScreenInput.slice(0, secScreenInput.length - 1);
+                        }
+                        if (screenText.textContent === "0") {
+                            console.log('why tho');
+                            screenText.textContent = "0";
+                        }
+                        secScreenInput = (eval(screenTextAfter.textContent.replace('x', '*'))).toString();
+                        if (secScreenInput === "0") {
+                            screenText.textContent = "0";
+                        }
+                        compNums = [];
+                        compNums.push(secScreenInput.toString());
+                        compSymbols = [];
+                        console.log(compNums);
+                        console.log(compSymbols);
+                        mainScreenInput = "";
+                        updateMainScreenText(secScreenInput.toString());
+                        console.log(secScreenInput);
+                        break;
+                    case "DEL":
+                        if (isResultCalled) {
+                            resetEverything();
+                        }
+                        if (mainScreenInput == "0") {
+                            return;
+                        } else {
+                            if (symbols.includes(secScreenInput.substr(-1)) === true) {
+                                //Checking if the last element in below screen is a SYMBOL
+                                //rather than number so that the above screen can be modified
+                                //to the element being accessed in the below screen                        
+                                updatedMainString = compNums[compNums.length - 1];
+                                compSymbols.pop();
+                                console.log(compSymbols);
+                                // console.log(updatedMainString);
+                            } else {
+                                updatedMainString = mainScreenInput.slice(0, mainScreenInput.length - 1);
+                                mainScreenInput = "";
+                            }
+                            updatedSecString = secScreenInput.slice(0, secScreenInput.length - 1);
+                            secScreenInput = "";
+                            updateSecScreenText(updatedSecString);
+                            if (updatedMainString.length == 0) { //checking if the above string is completely deleted                        
+                                screenText.textContent = "0";
+                                compNums.pop();
+                                console.log(compNums);
+                            } else {
+                                updateMainScreenText(updatedMainString);
+                            }
+                        }
+                        break;
+                    case "RESET":
+                        resetEverything();
+                        break;
+                }
+            }
+        }
+
+        //ACCESSING THE BTN CLICKING THROUGH A KEYDOWN
+        //EVENT LISTENER
+        document.addEventListener('keydown', function (eventObj) {
+            let key = eventObj.key;
+            key == "Enter" ?
+                key = "=" :
+                key == "Backspace" ?
+                    key = "DEL" :
+                    key == "*" ?
+                        key = "x" :
+                        key == "r" ?
+                            key = "RESET" :
+                            key = key;
+            btnClicked(key);
+            //adding the clicked styling to whichever button that is clicked through keyboard
+            for (let btn of btns) {
+                if (btn.textContent == key) {
+                    btn.classList.toggle('button-clicked');
+                }
+            }
+            //removing the clicked style on ALL the buttons
+            document.addEventListener('keyup', function () {
+                for (let btn of btns) {
+                    btn.classList.remove('button-clicked');
+                }
+            })
+        })
+
+
+        // ACCESSING THE BTN CLICKING THROUGH MOUSE CLICK AND PASSING
+        // THE BTN AS AN ARG TO A FUNCTION
+        for (let btn of btns) {
+            btn.onclick = function () {
+                btnClicked(btn.textContent);
+            }
+        }
+
+        //Theme toggling LIGHT <--> DARK
+        themeSwitchContainer.onclick = function () {
+            themeSwitchContainer.children[0].classList.toggle('theme-switch-toggle');
+            themeSwitchContainer.classList.toggle('theme-switch-container-light');
+            background.classList.toggle('background-light');
+            calcTitle.classList.toggle('calc-title-light');
+            screen.classList.toggle('screen-container-light');
+            screen.children[0].classList.toggle('screen-text-light')
+            btnContainer.classList.toggle('buttons-container-light');
+            screenTextAfter.classList.toggle('screen-text-after-light');
+            document.querySelector('.fa-palette').classList.toggle('calc-title-light');
+            document.querySelector('.fa-lightbulb').classList.toggle('fa-display-none');
+            document.querySelector('.fa-moon').classList.toggle('fa-display-none');
+            for (let btn of btns) {
+                btn.classList.contains('unique-btn-dark') ?
+                    btn.classList.toggle('unique-btn-light') :
+                    btn.classList.contains('equals-light') ?
+                        btn.classList.toggle('equals-dark') :
+                        btn.classList.toggle('button-light');
+            }
+        }
+    </script>
+</body>
+</html>
