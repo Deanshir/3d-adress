@@ -1,0 +1,331 @@
+﻿
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>
+        מקליט
+    </title>
+
+    <style>
+        @import 'https://fonts.googleapis.com/icon?family=Material+Icons|Roboto';
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200&family=Rubik:wght@300&display=swap');
+
+        body {
+            font-family: Rubik;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
+
+        * {
+            outline: none;
+        }
+
+        .recorder_wrapper {
+            width: 100%;
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .recorder {
+            display: inline-block;
+            text-align: center;
+            width: 500px;
+            max-width: 100%;
+        }
+
+        .record_btn {
+            width: 100px;
+            height: 100px;
+            font-family: 'Material Icons';
+            font-size: 48px;
+            color: orange;
+            background: none;
+            border: 2px solid orange;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.15s linear;
+        }
+
+            .record_btn:hover {
+                transition: 0.15s linear;
+                transform: scale( 1.05 );
+            }
+
+            .record_btn:active {
+                background: #f5f5f5;
+            }
+
+            .record_btn:after {
+                content: '\E029';
+            }
+
+            .record_btn[disabled] {
+                border: 2px solid #ccc;
+            }
+
+                .record_btn[disabled]:after {
+                    content: '\E02B';
+                    color: #ccc;
+                }
+
+                .record_btn[disabled]:hover {
+                    transition: 0.15s linear;
+                    transform: none;
+                }
+
+                .record_btn[disabled]:active {
+                    background: none;
+                }
+
+        .recording {
+            animation: recording 2s infinite ease-in-out;
+            position: relative;
+        }
+
+            .recording:before {
+                content: '';
+                display: inline-block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0px;
+                height: 0px;
+                margin: 0px;
+                border-radius: 50%;
+                background: rgba( 0, 0, 0, 0.05 );
+                animation: recording_before 2s infinite ease-in-out;
+            }
+
+        @keyframes recording {
+            from {
+                transform: scale( 1.1 );
+            }
+
+            50% {
+                transform: none;
+            }
+
+            to {
+                transform: scale( 1.1 );
+            }
+        }
+
+        @keyframes recording_before {
+            80% {
+                width: 200px;
+                height: 200px;
+                margin: -100px;
+                opacity: 0;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .record_canvas {
+            width: 60px;
+            height: 100px;
+            display: inline-block;
+        }
+
+        .txt_btn {
+            color: #000;
+            text-decoration: none;
+            transition: 0.15s linear;
+            animation: text_btn 0.3s ease-in-out;
+        }
+
+            .txt_btn:hover {
+                font-weight: bold;
+                color: orange
+            }
+
+    </style>
+
+
+</head>
+
+<body>
+    <div class="recorder_wrapper">
+        <div class="recorder">
+            <button class="record_btn" id="button"></button>
+            <p id="msg_box"></p>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var msg_box = document.getElementById('msg_box'),
+        button = document.getElementById('button'),
+        canvas = document.getElementById('canvas'),
+        lang = {
+            'mic_error': 'תקלה בגישה למיקרופון', //שגיאת גישה למיקרופון
+            'press_to_start': 'לחץ על המיקרופון להתחלת הדיווח', 
+            'recording': 'מקליט... </br></br> לסיום הדיווח לחץ שוב על המיקרופון',
+            'play': 'השמע דיווח', 
+            'play2': 'השמע דיווח שנית',
+            'stop': 'עצור השמעת הקלטה', 
+        },
+        time;
+
+
+    msg_box.innerHTML = lang.press_to_start;
+
+    if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+    }
+
+
+    if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function (constrains) {
+            var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia
+            if (!getUserMedia) {
+                return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+            }
+
+            return new Promise(function (resolve, reject) {
+                getUserMedia.call(navigator, constrains, resolve, reject);
+            });
+        }
+    }
+
+
+    if (navigator.mediaDevices.getUserMedia) {
+        var btn_status = 'inactive',
+            mediaRecorder,
+            chunks = [],
+            audio = new Audio(),
+            mediaStream,
+            audioSrc,
+            type = {
+                'type': 'audio/ogg,codecs=opus'
+            },
+            ctx,
+            analys,
+            blob;
+
+        button.onclick = function () {
+            if (btn_status == 'inactive') {
+                start();
+            } else if (btn_status == 'recording') {
+                stop();
+            }
+        }
+
+        function parseTime(sec) {
+            var h = parseInt(sec / 3600);
+            var m = parseInt(sec / 60);
+            var sec = sec - (h * 3600 + m * 60);
+
+            h = h == 0 ? '' : h + ':';
+            sec = sec < 10 ? '0' + sec : sec;
+
+            return h + m + ':' + sec;
+        }
+
+
+        function start() {
+            navigator.mediaDevices.getUserMedia({ 'audio': true }).then(function (stream) {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+
+                button.classList.add('recording');
+                btn_status = 'recording';
+
+                msg_box.innerHTML = lang.recording;
+
+                if (navigator.vibrate) navigator.vibrate(150);
+
+                time = Math.ceil(new Date().getTime() / 1000);
+
+
+                mediaRecorder.ondataavailable = function (event) {
+                    chunks.push(event.data);
+                }
+
+                mediaRecorder.onstop = function () {
+                    stream.getTracks().forEach(function (track) { track.stop() });
+
+                    blob = new Blob(chunks, type);
+                    audioSrc = window.URL.createObjectURL(blob);
+
+                    audio.src = audioSrc;
+
+                    chunks = [];
+                }
+
+
+
+            }).catch(function (error) {
+                if (location.protocol != 'https:') {
+                    msg_box.innerHTML = lang.mic_error + '<br>' + lang.use_https;
+                } else {
+                    msg_box.innerHTML = lang.mic_error;
+                }
+                button.disabled = true;
+            });
+        }
+
+        function stop() {
+            mediaRecorder.stop();
+            button.classList.remove('recording');
+            btn_status = 'inactive';
+
+            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+
+            var now = Math.ceil(new Date().getTime() / 1000);
+
+            var t = parseTime(now - time);
+
+            msg_box.innerHTML = '<a href="#" onclick="play(); return false;" class="txt_btn">' + lang.play + '<br> (' + t + ' שניות)</a>'
+        }
+
+        function play() {
+            audio.play();
+            msg_box.innerHTML = '<a href="#" onclick="pause(); return false;" class="txt_btn">' + lang.stop + '</a><br>' +
+                ' <a href="#" onclick="play(); return false;" class="txt_btn">' + lang.play2 + '</a><br><br>'+"להקלטה חוזרת, לחץ על המיקרופון"
+        }
+
+        function pause() {
+            audio.pause();
+            audio.currentTime = 0;
+            msg_box.innerHTML = '<a href="#" onclick="play(); return false;" class="txt_btn">' + lang.play + '</a>'
+        }
+
+        function roundedRect(ctx, x, y, width, height, radius, fill) {
+            ctx.beginPath();
+            ctx.moveTo(x, y + radius);
+            ctx.lineTo(x, y + height - radius);
+            ctx.quadraticCurveTo(x, y + height, x + radius, y + height);
+            ctx.lineTo(x + width - radius, y + height);
+            ctx.quadraticCurveTo(x + width, y + height, x + width, y + height - radius);
+            ctx.lineTo(x + width, y + radius);
+            ctx.quadraticCurveTo(x + width, y, x + width - radius, y);
+            ctx.lineTo(x + radius, y);
+            ctx.quadraticCurveTo(x, y, x, y + radius);
+
+            ctx.fillStyle = fill;
+            ctx.fill();
+        }
+
+    } else {
+        if (location.protocol != 'https:') {
+            msg_box.innerHTML = lang.mic_error + '<br>' + lang.use_https;
+        } else {
+            msg_box.innerHTML = lang.mic_error;
+        }
+        button.disabled = true;
+    }
+</script>

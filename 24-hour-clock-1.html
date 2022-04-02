@@ -1,0 +1,72 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>שעון 24</title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin-left: 0;
+            height: 100%;
+            width: 100%;
+          
+        }
+     h3{
+         text-align: right;
+     }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.22/"></script>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/SceneView",
+            "esri/layers/SceneLayer",
+            "esri/widgets/Expand",
+            "esri/widgets/Daylight",
+            "esri/widgets/Zoom/ZoomViewModel",
+        ], (Map, SceneView, SceneLayer, Expand, Daylight, ZoomVM) => {
+
+            const map = new Map({
+                basemap: "satellite",
+                ground: "world-elevation"
+            });
+
+            const view = new SceneView({
+                container: "viewDiv",
+                map: map,
+               center: {
+                    longitude: 31,
+                    latitude: 32
+                },
+                zoom: -1,
+                ui: {
+                    components: ["attribution"]
+                }
+            });
+
+          
+            const daylightWidget = new Daylight({
+                view: view,
+                visibleElements: {
+                    timezone: false,
+                    datePicker: false,
+                    playButtons: true,
+                    shadowsToggle: false,
+                   
+                },
+            });
+           
+            view.ui.add(daylightWidget, "top-right");
+        });
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+</html>
