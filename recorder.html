@@ -38,15 +38,19 @@
         }
 
         .recorder {
-            display: inline-block;
+            display: inline-flex;
             text-align: center;
             width: 500px;
             max-width: 100%;
+            justify-content: space-evenly;
+            align-items: center;
+            align-content: center;
+            flex-direction: row;
         }
 
         .record_btn {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             font-family: 'Material Icons';
             font-size: 48px;
             color: orange;
@@ -55,6 +59,7 @@
             border-radius: 50%;
             cursor: pointer;
             transition: 0.15s linear;
+            margin-left: -60px;
         }
 
             .record_btn:hover {
@@ -329,3 +334,4 @@
         button.disabled = true;
     }
 </script>
+
