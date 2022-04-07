@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport"
@@ -94,14 +94,7 @@
             // add the toolbar for the measurement widgets
             view.ui.add("topbar", "top-left");
            
-            $("#num").click(function () {
-                
-                console.log("distance");
-                console.log($(".esri-text-overlay-item-anchor-left").html());
-                var sAnswer = document.getElementById('Distance_Miles').value
-                var player = parent.GetPlayer();
-                player.SetVar("Distance_Miles", sAnswer);
-            });
+          
 
             document.getElementById("distanceButton").addEventListener("click", (event) => {
                     setActiveWidget(null);
@@ -171,6 +164,15 @@
                 title="מתח קו על גבי המפה כדי לגלות את המרחק בין 2 נקודות"></button>
     </div>
  
+    <script>
+        $("#num").click(function () {
 
+            console.log("distance");
+            console.log($(".esri-text-overlay-item-anchor-left").html());
+            var sAnswer = document.getElementById('Distance_Miles').value
+            var player = parent.GetPlayer();
+            player.SetVar("Distance_Miles", sAnswer);
+        });
+    </script>
 </body>
 </html>
