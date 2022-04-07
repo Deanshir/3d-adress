@@ -54,19 +54,42 @@
     <script src="https://js.arcgis.com/4.23/"></script>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    
+
+</head>
+
+<body>
+
+    <div id="viewDiv"></div>      
+    <div id="topbar">
+        <button class="action-button"
+                id="num"
+                type="button">
+            סיימתי מדידה
+        </button>
+        <button class="action-button esri-icon-measure-line"
+                id="distanceButton"
+                type="button"
+                title="מתח קו על גבי המפה כדי לגלות את המרחק בין 2 נקודות"></button>
+    </div>
+ 
     <script>
         require([
             "esri/WebScene",
             "esri/views/SceneView",
             "esri/widgets/DirectLineMeasurement3D",
-            "esri/core/promiseUtils"
+            "esri/core/promiseUtils",
+            "esri/config"
         ], (
             WebScene,
             SceneView,
             DirectLineMeasurement3D,
-            promiseUtils
+            promiseUtils,
+            esriConfig
         ) => {
             let activeWidget = null;
+
+            // esriConfig.apiKey = "AAPKe3375e799b184fbf9188ee492822af6efBiEsB6t1pP4zD5k_8XWVIqPszN1t1sB0slUBBqPN4XB27MlNmmzUOaC3WKd8Xz8";
 
             // load a webscene
             const webscene = new WebScene({
@@ -80,7 +103,7 @@
                 container: "viewDiv",
                 map: webscene,
                 zoom: 3,
-               
+
                 ui: {
                     components: ["attribution"]
                 },
@@ -93,19 +116,26 @@
 
             // add the toolbar for the measurement widgets
             view.ui.add("topbar", "top-left");
-           
-          
+
+            $("#num").click(function () {
+
+                console.log("distance");
+                console.log($(".esri-text-overlay-item-anchor-left").html());
+                var sAnswer = document.getElementById('Distance_Miles').value
+                var player = parent.GetPlayer();
+                player.SetVar("Distance_Miles", sAnswer);
+            });
 
             document.getElementById("distanceButton").addEventListener("click", (event) => {
-                    setActiveWidget(null);
-                    if (!event.target.classList.contains("active")) {
-                        setActiveWidget("distance");
-                    } else {
-                        setActiveButton(null);
-                    }
-                   
+                setActiveWidget(null);
+                if (!event.target.classList.contains("active")) {
+                    setActiveWidget("distance");
+                } else {
+                    setActiveButton(null);
+                }
 
-                });
+
+            });
 
 
             function setActiveWidget(type) {
@@ -115,7 +145,7 @@
                             view: view,
                             unit: "miles",
                         });
-                       
+
 
                         // skip the initial 'new measurement' button
                         activeWidget.viewModel.start().catch((error) => {
@@ -145,34 +175,6 @@
 
         });
 
-    </script>
-
-</head>
-
-<body>
-
-    <div id="viewDiv"></div>      
-    <div id="topbar">
-        <button class="action-button"
-                id="num"
-                type="button">
-            סיימתי מדידה
-        </button>
-        <button class="action-button esri-icon-measure-line"
-                id="distanceButton"
-                type="button"
-                title="מתח קו על גבי המפה כדי לגלות את המרחק בין 2 נקודות"></button>
-    </div>
- 
-    <script>
-        $("#num").click(function () {
-
-            console.log("distance");
-            console.log($(".esri-text-overlay-item-anchor-left").html());
-            var sAnswer = document.getElementById('Distance_Miles').value
-            var player = parent.GetPlayer();
-            player.SetVar("Distance_Miles", sAnswer);
-        });
     </script>
 </body>
 </html>
