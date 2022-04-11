@@ -64,7 +64,7 @@
     <div id="viewDiv"></div>      
     <div id="topbar">
         <button class="action-button"
-                id="num"
+                id="num"z
                 type="button">
             סיימתי מדידה
         </button>
@@ -118,14 +118,27 @@
             // add the toolbar for the measurement widgets
             view.ui.add("topbar", "top-left");
 
-            $("#num").click(function () {
+            document.getElementById("num").addEventListener("click", (event)=> {
+                console.log("distance")
+                console.log($(".esri-text-overlay-item-anchor-left").html())
+                var sAnswer = $(".esri-text-overlay-item-anchor-left").html()
+                console.log("sAnswer: " + sAnswer)
 
-                console.log("distance");
-                console.log($(".esri-text-overlay-item-anchor-left").html());
-                var sAnswer = document.getElementById('Distance_Miles').value
-                var player = parent.GetPlayer();
-                player.SetVar("Distance_Miles", sAnswer);
+                //var player = parent.GetPlayer()
+                //player.SetVar("Distance_Miles", sAnswer)
             });
+
+
+           //document.getElementById("num").click(function () {
+
+           //     console.log("distance");
+           //     console.log($(".esri-text-overlay-item-anchor-left").html());
+           //     var sAnswer = document.getElementById('Distance_Miles').value
+           //     var player = parent.GetPlayer();
+           //     player.SetVar("Distance_Miles", sAnswer);
+           // });
+
+
 
             document.getElementById("distanceButton").addEventListener("click", (event) => {
                 setActiveWidget(null);
