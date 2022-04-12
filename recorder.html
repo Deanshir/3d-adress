@@ -9,13 +9,13 @@
     <style>
         @import 'https://fonts.googleapis.com/icon?family=Material+Icons|Roboto';
         @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200&family=Rubik:wght@300&display=swap');
-      
+
         body {
             font-family: Rubik;
         }
 
-        body
-       {
+        body,
+        html {
             width: 100%;
             height: 100%;
             margin: 0;
@@ -29,22 +29,21 @@
 
         .recorder_wrapper {
             width: 100%;
-/*            display: -webkit-flex;
-*/            display: flex;
+            display: -webkit-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: 30%;
-            height: 10%;
+            width: 100%;
+            height: 100%;
         }
 
         .recorder {
             display: inline-flex;
             text-align: center;
-            width: 300px;
-            max-width: inherit;
+            width: 500px;
+            max-width: 100%;
             justify-content: space-evenly;
             align-items: center;
-            height: max-content;
             align-content: center;
             flex-direction: row;
         }
@@ -60,8 +59,8 @@
             border-radius: 50%;
             cursor: pointer;
             transition: 0.15s linear;
-/*            margin-left: -90px;
-*/            display: inline-flex;
+            margin-left: -90px;
+            display: inline-flex;
             justify-content: center;
         }
 
@@ -144,7 +143,7 @@
 
         .record_canvas {
             width: 60px;
-            height: 100px;
+            height: 50px;
             display: inline-block;
         }
 
@@ -153,7 +152,6 @@
             text-decoration: none;
             transition: 0.15s linear;
             animation: text_btn 0.3s ease-in-out;
-            font-size: 14pt;
         }
 
             .txt_btn:hover {
@@ -338,4 +336,5 @@
         button.disabled = true;
     }
 </script>
+
 
