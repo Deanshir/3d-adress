@@ -18,9 +18,8 @@
             height: 100%;
             width: 100%;
             font-family: Assistant;
-           
         }
-
+       
         .buttons {
             position: absolute;
             bottom: 20px;
@@ -44,7 +43,11 @@
             filter: saturate(1.2) drop-shadow(0 0 20px white);
         }
 
-      
+        .esri-view .esri-view-surface--inset-outline:focus::after {
+            outline: none !important;
+        }
+
+        
     </style>
 
     <script>
@@ -72,19 +75,20 @@
                 const view = new SceneView({
                     container: "viewDiv",
                     map: map,
+                   // alphaCompositingEnabled: true,
                     environment: {
                         background: {
                             type: "color", // autocasts as new ColorBackground()
-                            color: [255, 255, 255, 0.5]
+                            color: [85, 180, 226,1]
                         },
                         lighting: {
                             date: new Date('null')
                         }
+                     
                     }
                 })
             
-
-             
+              
 
             let isPlaying = true;
 
