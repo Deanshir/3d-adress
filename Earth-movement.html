@@ -19,7 +19,9 @@
             width: 100%;
             font-family: Assistant;
         }
-       
+        body {
+            background-color: white;
+        }
         .buttons {
             position: absolute;
             bottom: 20px;
@@ -76,20 +78,25 @@
                     container: "viewDiv",
                     map: map,
                    // alphaCompositingEnabled: true,
+                    alphaCompositingEnabled: true,
                     environment: {
+                        // set a transparent background
                         background: {
-                            type: "color", // autocasts as new ColorBackground()
-                            color: [122, 154, 169]
+                            type: "color",
+                            color: [255, 252, 244, 0]
                         },
                         lighting: {
-                            date: new Date('null')
-                        }
+                            type: "virtual"
+                        },
+                        // disable stars
+                        starsEnabled: false,
+                        // disable atmosphere
+                        atmosphereEnabled: false
+        
                      
                     }
                 })
             
-              
-
             let isPlaying = true;
 
             view.when(function () {
