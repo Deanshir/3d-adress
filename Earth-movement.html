@@ -19,7 +19,7 @@
             width: 100%;
             font-family: Assistant;
         }
-      
+
         .buttons {
             position: absolute;
             bottom: 20px;
@@ -31,14 +31,20 @@
         .esri-button {
             display: inline;
             max-width: 150px;
-            background-color: white;
+            background-color: #232323;
             font-weight: bold;
-            border-radius: 10px;
+            border-radius: 8px;
             border-width: 2px;
-            border-color: #2A5096;
-            color: black;
+            border-color: black;
+            color: white;
         }
-       
+
+            .esri-button:hover {
+                background-color: #727272;
+                border-color: black;
+                border-width: 2px;
+            }
+
         #viewDiv canvas {
             filter: saturate(1.2) drop-shadow(0 0 20px white);
         }
@@ -46,8 +52,6 @@
         .esri-view .esri-view-surface--inset-outline:focus::after {
             outline: none !important;
         }
-
-        
     </style>
 
     <script>
@@ -75,7 +79,7 @@
                 const view = new SceneView({
                     container: "viewDiv",
                     map: map,
-                   // alphaCompositingEnabled: true,
+                    // alphaCompositingEnabled: true,
                     alphaCompositingEnabled: true,
                     environment: {
                         // set a transparent background
@@ -90,38 +94,38 @@
                         starsEnabled: false,
                         // disable atmosphere
                         atmosphereEnabled: false
-        
-                     
+
+
                     }
                 })
-            
-            let isPlaying = true;
 
-            view.when(function () {
-                watchUtils.whenFalseOnce(view, "updating", rotate)
-            });
+                let isPlaying = true;
 
-            function rotate() {
-                if (isPlaying) {
-                    const camera = view.camera.clone()
-                    camera.position.longitude -= 0.2 //מהירות התנועה
-                    view.goTo(camera, { animate: false })
-                    requestAnimationFrame(rotate)
+                view.when(function () {
+                    watchUtils.whenFalseOnce(view, "updating", rotate)
+                });
+
+                function rotate() {
+                    if (isPlaying) {
+                        const camera = view.camera.clone()
+                        camera.position.longitude -= 0.2 //מהירות התנועה
+                        view.goTo(camera, { animate: false })
+                        requestAnimationFrame(rotate)
+                    }
                 }
-            }
-      
-            document.getElementById("animate").addEventListener("click", function () {
-                if (isPlaying) {
-                    isPlaying = false;
-                    this.innerHTML = "הפעל אנימציה";
-                } else {
-                    isPlaying = true;
-                    this.innerHTML = "עצור אנימציה"
-                    rotate();
-                }
-            });
 
-          });
+                document.getElementById("animate").addEventListener("click", function () {
+                    if (isPlaying) {
+                        isPlaying = false;
+                        this.innerHTML = "הפעל אנימציה";
+                    } else {
+                        isPlaying = true;
+                        this.innerHTML = "עצור אנימציה"
+                        rotate();
+                    }
+                });
+
+            });
     </script>
 </head>
 
