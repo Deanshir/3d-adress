@@ -1,0 +1,144 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>מדידה של מרחק במייל</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200&family=Rubik:wght@300&display=swap');
+
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            direction: rtl;
+        }
+
+        #topbar {
+            background: #fff;
+        }
+
+        .action-button {
+            font-size: 16px;
+            background-color: transparent;
+            border: 1px solid #d3d3d3;
+            color: #6e6e6e;
+            height: 32px;
+            width: 32px;
+            text-align: center;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+        }
+
+            .action-button:hover,
+            .action-button:focus {
+                background: #b7cfc8;
+                color: black;
+            }
+
+        .active {
+            background: #b7cfc8;
+            color: black;
+        }
+
+        #address {
+            font-size: 16px;
+            background-color: transparent;
+            border: 1px solid #d3d3d3;
+            color: #6e6e6e;
+            height: 32px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+
+    <link rel="stylesheet"
+          href="https://js.arcgis.com/4.23/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.23/"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+   
+    <div id="viewDiv"></div>
+    <div id="topbar">
+        <button id="address">
+            Greenwich, London
+        </button>
+        <button class="action-button esri-icon-search"
+                id="searchButton"></button>
+
+    </div>
+
+    <script>
+        require(["esri/Map", "esri/views/SceneView", "esri/widgets/Search"], (
+            Map,
+            SceneView,
+            Search
+        ) => {
+            const map = new Map({
+                basemap: "satellite",
+            });
+
+            const view = new SceneView({
+                container: "viewDiv",
+                map: map,
+                ui: {
+                    components: ["attribution"]
+                },
+
+                // alphaCompositingEnabled: true,
+                alphaCompositingEnabled: true,
+                environment: {
+                    // set a transparent background
+                    background: {
+                        type: "color",
+                        color: [255, 252, 244, 0]
+                    },
+                    lighting: {
+                        type: "virtual"
+                    },
+                    // disable stars
+                    starsEnabled: false,
+                    // disable atmosphere
+                    atmosphereEnabled: false,
+
+
+                }
+            });
+
+            // add the toolbar for the measurement widgets
+            view.ui.add("topbar", "top-left");
+
+            const searchWidget = new Search({
+                view: view,
+                popupEnabled: false,
+                searchTerm: "Greenwich, London",
+
+
+            });
+
+            //פונקציה להפעלת אנימציית לוקיישן
+            document.getElementById("searchButton").onclick = (e) => {
+                e.preventDefault();
+                var el = "Greenwich, London";
+                console.log("el.value: " + el.value);
+                searchWidget.search(el.value).then((result));
+
+                //חשיפת שכבת מידע על קו גריניץ'
+                var player = window.parent.GetPlayer()
+                player.SetVar("shoeLayerGreenwich", true);
+            }
+        });
+
+    </script>
+</body>
+</html>

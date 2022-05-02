@@ -1,0 +1,185 @@
+﻿<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ArcGIS API for JavaScript Tutorials: Add a point, line, and polygon</title>
+    <style>
+        html, body, #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.23/"></script>
+    <script>
+
+        require([
+            "esri/config",
+            "esri/Map",
+            "esri/views/MapView",
+
+            "esri/Graphic",
+            "esri/layers/GraphicsLayer"
+
+        ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer) {
+
+            esriConfig.apiKey = "AAPKe3375e799b184fbf9188ee492822af6efBiEsB6t1pP4zD5k_8XWVIqPszN1t1sB0slUBBqPN4XB27MlNmmzUOaC3WKd8Xz8";
+
+            const map = new Map({
+                basemap: "satellite" //Basemap layer service
+            });
+
+            const view = new MapView({
+                map: map,
+                center: [0, 0],
+                zoom:2,
+                container: "viewDiv",
+                ui: {
+                    components: ["attribution"]
+                },
+
+                // alphaCompositingEnabled: true,
+                alphaCompositingEnabled: true,
+                environment: {
+                    // set a transparent background
+                    background: {
+                        type: "color",
+                        color: [255, 252, 244, 0]
+                    },
+                    lighting: {
+                        type: "virtual"
+                    },
+                    // disable stars
+                    starsEnabled: false,
+                    // disable atmosphere
+                    atmosphereEnabled: false,
+                }
+            });
+
+            const graphicsLayer = new GraphicsLayer();
+            map.add(graphicsLayer);
+
+            // Create a line geometry
+            const polyline = {
+                type: "polyline",
+                paths: [
+                    [    //קו 180
+                        [180, 90], //Longitude, latitude
+                        [180, -90], //Longitude, latitude
+                    ],
+                    [    //קו 165
+                        [165, 90], //Longitude, latitude
+                        [165, -90], //Longitude, latitude
+                    ],
+                    [    //קו 150
+                        [150, 90], //Longitude, latitude
+                        [150, -90], //Longitude, latitude
+                    ],
+                    [    //קו 135
+                        [135, 90], //Longitude, latitude
+                        [135, -90], //Longitude, latitude
+                    ],
+                    [    //קו 120
+                        [120, 90], //Longitude, latitude
+                        [120, -90], //Longitude, latitude
+                    ],
+                    [    //קו 105
+                        [105, 90], //Longitude, latitude
+                        [105, -90], //Longitude, latitude
+                    ],
+                    [    //קו 90
+                        [90, 90], //Longitude, latitude
+                        [90, -90], //Longitude, latitude
+                    ],
+                    [    //קו 75
+                        [75, 90], //Longitude, latitude
+                        [75, -90], //Longitude, latitude
+                    ],
+                    [    //קו 60
+                        [60, 90], //Longitude, latitude
+                        [60, -90], //Longitude, latitude
+                    ],
+                    [    //קו 45
+                        [45, 90], //Longitude, latitude
+                        [45, -90], //Longitude, latitude
+                    ],
+                    [    //קו 30
+                        [30, 90], //Longitude, latitude
+                        [30, -90], //Longitude, latitude
+                    ],
+                    [    //קו 15
+                        [15, 90], //Longitude, latitude
+                        [15, -90], //Longitude, latitude
+                    ],
+                    [    //קו 0
+                        [0, 90], //Longitude, latitude
+                        [0, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 165
+                        [-165, 90], //Longitude, latitude
+                        [-165, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 150
+                        [-150, 90], //Longitude, latitude
+                        [-150, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 135
+                        [-135, 90], //Longitude, latitude
+                        [-135, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 120
+                        [-120, 90], //Longitude, latitude
+                        [-120, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 105
+                        [-105, 90], //Longitude, latitude
+                        [-105, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 90
+                        [-90, 90], //Longitude, latitude
+                        [-90, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 75
+                        [-75, 90], //Longitude, latitude
+                        [-75, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 60
+                        [-60, 90], //Longitude, latitude
+                        [-60, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 45
+                        [-45, 90], //Longitude, latitude
+                        [-45, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 30
+                        [-30, 90], //Longitude, latitude
+                        [-30, -90], //Longitude, latitude
+                    ],
+                    [    //-קו 15
+                        [-15, 90], //Longitude, latitude
+                        [-15, -90], //Longitude, latitude
+                    ]
+                ]
+            };
+            const simpleLineSymbol = {
+                type: "simple-line",
+                color: [255, 255, 255], // Orange
+                width: 2
+            };
+
+            const polylineGraphic = new Graphic({
+                geometry: polyline,
+                symbol: simpleLineSymbol
+            });
+            graphicsLayer.add(polylineGraphic);
+
+        });
+    </script>
+</head>
+<body>
+    <div id="viewDiv"></div>
+</body>
+</html>
