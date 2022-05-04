@@ -1,0 +1,341 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>לוח שעון מקומי</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap');
+
+        body {
+            width: 100%;
+        }
+
+        form {
+            direction: rtl;
+            justify-content: center;
+            font-family: rubik;
+            display: flex;
+            height: 60px;
+            align-items: center;
+            margin-top: -10px;
+          
+        }
+
+        input {
+            width: 90px;
+            font-family: Rubik;
+            font-size: 12pt
+        }
+
+        p {
+            background: #444;
+            color: #fff;
+            font-family: rubik;
+            text-align: center;
+            font-size: 20pt;
+            margin-top: -2px;
+        }
+
+        #txt1,
+        #txt2,
+        #txt3,
+        #txt4 {
+            float: left;
+            margin: 30px;
+        }
+
+        #btn{
+            height:30px;
+        }
+
+        .box {
+            display: flow;
+        }
+
+        #table {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            margin-top: -25px;
+        }
+
+        #line1,
+        #line2,
+        #line3,
+        #line4 {
+            cursor: pointer;
+            /*overflow: hidden;*/
+            font: 30px/1 monospace;
+        }
+
+            #line1 span,
+            #line2 span,
+            #line3 span,
+            #line4 span {
+                display: block;
+                float: left;
+                background: #444;
+                color: #ffd700;
+               /* margin-right: 1px;*/
+                margin-top: 2px;
+            }
+    </style>
+
+</head>
+
+<body>
+    <form>
+        <div id="txt1">
+            השעה בתל אביב<br />
+            <input type="time" id="telAvivCity" onchange="setHour(telAvivCity)">
+        </div>
+
+        <div id="txt2">
+            השעה בסידני<br />
+            <input type="time" id="sidneyCity" onchange="setHour(sidneyCity)">
+        </div>
+
+        <div id="txt3">
+            השעה בניו-יורק<br />
+            <input type="time" id="newYorkCity" onchange="setHour(newYorkCity)">
+        </div>
+
+        <div id="txt4">
+            השעה במקסיקו<br />
+            <input type="time" id="mexicoCity" onchange="setHour(mexicoCity)">
+        </div>
+
+        <!--<div id="submit">
+            <input type="button" id="btn" value="הכנס שעות" onclick="setNewHour()">
+        </div>-->
+
+    </form>
+
+    <div class="box">
+        <p>
+            לוח שעון מקומי
+        </p>
+
+        <div id="table">
+            <ul id="line1">
+                <li> DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    --:-- </li>
+                <li id="telAvivHour"> </li>
+            </ul>
+            <ul id="line2">
+                <li> PARIS       48.86,2.35    09:10   SYDNEY     -33.80,151.20   --:-- </li>
+                <li id="sydneyHour"> </li>
+            </ul>
+            <ul id="line3">
+                <li> FRANKFURT   50.21,8.74    03:45   NEW-YORK    40.82,-73.99   --:-- </li>
+                <li id="newYorkHour"> </li>
+            </ul>
+            <ul id="line4">
+                <li> LONDON      51.53,-0.04   22:30   MEXICO      19.56,-99.10   --:-- </li>
+                <li id="mexicoHour"> </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script>
+        var telAvivHour = document.getElementById("telAvivHour").innerText;
+        var sydneyHour = document.getElementById("sydneyHour").innerText;
+        var newYorkHour = document.getElementById("newYorkHour").innerText;
+        var mexicoHour = document.getElementById("mexicoHour").innerText;
+
+        
+
+        function setHour(id) {
+            var inputValue = document.getElementById(id.id).value;
+            var inputId = document.getElementById(id.id).id;
+
+            switch (inputId) {
+                case "telAvivCity":
+                    telAvivHour = inputValue + " ";
+                    console.log("telAvivHour: " + telAvivHour)
+                    break;
+
+                case "sidneyCity":
+                    sydneyHour = inputValue + " ";
+                    console.log("sydneyHour: " + sydneyHour)
+                    break;
+
+                case "newYorkCity":
+                    newYorkHour =inputValue + " ";
+                    console.log("newYorkHour: " + newYorkHour)
+                    break;
+
+                case "mexicoCity":
+                    mexicoHour = inputValue + " ";
+                    console.log("mexicoHour: " + mexicoHour)
+                    break;
+            }
+        }
+
+        $.fn.ticker = function (options) {
+
+            options = $.extend({
+                uppercase: true,
+                extra: ',.:+=/()-',
+                speed: 30
+            }, options);
+
+            var alph = 'ABCDEFGHIJKLMNOPQRSTUVXYZ';
+
+            if (!options.uppercase) {
+                alph = alph + alph.toLowerCase();
+            }
+            alph = '01234567890' + alph + options.extra + ' ';
+
+            return this.each(function () {
+                var k = 1,
+                    elems = $(this).children(),
+                    arr = alph.split(''),
+                    len = 0,
+                    fill = function (a) {
+                        while (a.length < len) {
+                            a.push(' ');
+                        }
+                        return a;
+                    },
+                    texts = $.map(elems, function (elem) {
+                        var text = $(elem).text();
+                        len = Math.max(len, text.length);
+                        return options.uppercase ? text.toUpperCase() : text;
+                    }),
+                    target = $('<div>'),
+                    render = function (print) {
+                        target.data('prev', print.join(''));
+                        fill(print);
+                        print = $.map(print, function (p) {
+                            return p == ' ' ? '&#160;' : p;
+                        });
+                        return target.html('<span>' + print.join('</span><span>') + '</span>');
+                    },
+                    attr = {}
+
+                $.each(this.attributes, function (i, item) {
+                    target.attr(item.name, item.value);
+                });
+
+                $(this).replaceWith(render(texts[0].split('')));
+                target.click(function (e) {
+                    var firstChar = texts[0].charAt(1);
+                    console.log("firstChar: " + firstChar)
+ //------------------------------------------------------------------------------------> החלק החשוב
+ //------------------------------------------------------------------------------------> החלק החשוב
+
+
+            /*  *//*  *//*  //*//*  *//*שורה ראשונה*/
+                    if (firstChar == "D") {
+                        console.log("telAvivHour: " + telAvivHour)
+                        if (telAvivHour == "") {
+                            texts[1] = " DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    HH:MM ";
+                        }
+                        else {
+                            /*לעדכן שעה נכונה*/
+                            if (telAvivHour == "16:00 ") {
+                                texts[1] = " DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    " + telAvivHour;
+                            }
+                            else { texts[1] = " DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    ER:OR ";}
+                        }
+                        console.log("texts[1]: " + texts[1])
+                    }
+
+            /*  *//*  *//*  //*//*  *//*שורה שניה*/
+                    else {
+                        if (firstChar == "P") {
+                            console.log("sydneyHour: " + sydneyHour)
+                            if (sydneyHour == "") {
+                                texts[1] = " PARIS       48.86,2.35    09:10   SYDNEY     -33.80,151.20   HH:MM ";
+                            }
+                            else {
+                                /*לעדכן שעה נכונה*/
+                                if (sydneyHour == "16:00 ") {
+                                    texts[1] = " PARIS       48.86,2.35    09:10   SYDNEY     -33.80,151.20   " + sydneyHour;
+                                }
+                                else { texts[1] = " PARIS       48.86,2.35    09:10   SYDNEY     -33.80,151.20   ER:OR "; }
+                            }
+                            console.log("texts[1]: " + texts[1])
+                        }
+
+            /*  *//*  *//*  //*//*  *//*שורה שלישית*/
+                        else {
+                            if (firstChar == "F") {
+                                console.log("newYorkHour: " + newYorkHour)
+                                if (newYorkHour == "") {
+                                    texts[1] = " FRANKFURT   50.21,8.74    03:45   NEW-YORK    40.82,-73.99   HH:MM ";
+                                }
+                                else {
+                                    /*לעדכן שעה נכונה*/
+                                    if (newYorkHour == "16:00 ") {
+                                        texts[1] = " FRANKFURT   50.21,8.74    03:45   NEW-YORK    40.82,-73.99   " + newYorkHour;
+                                    }
+                                    else { texts[1] = " FRANKFURT   50.21,8.74    03:45   NEW-YORK    40.82,-73.99   ER:OR "; }
+                                }
+                                console.log("texts[1]: " + texts[1])
+                            }
+
+            /*  *//*  *//*  //*//*  *//*שורה רביעית*/
+                            else {
+                                if (firstChar == "L") {
+                                    console.log("mexicoHour: " + mexicoHour)
+                                    if (mexicoHour == "") {
+                                        texts[1] = " LONDON      51.53,-0.04   22:30   MEXICO      19.56,-99.10   HH:MM ";
+                                    }
+                                    else {
+                                        /*לעדכן שעה נכונה*/
+                                        if (mexicoHour == "16:00 ") {
+                                            texts[1] = " LONDON      51.53,-0.04   22:30   MEXICO      19.56,-99.10   " + mexicoHour;
+                                        }
+                                        else { texts[1] = " LONDON      51.53,-0.04   22:30   MEXICO      19.56,-99.10   ER:OR "; }
+                                    }
+                                    console.log("texts[1]: " + texts[1])
+                                }
+                            }
+                           
+                        }
+                       
+                    }
+                    
+
+
+
+
+                    var next = fill(texts[k].split('')),
+                        prev = fill(target.data('prev').split('')),
+                        print = prev;
+
+                    $.each(next, function (i) {
+                        if (next[i] == prev[i]) {
+                            return;
+                        }
+                        var index = alph.indexOf(prev[i]),
+                            j = 0,
+                            tid = window.setInterval(function () {
+                                if (next[i] != arr[index]) {
+                                    index = index == alph.length - 1 ? 0 : index + 1;
+                                } else {
+                                    window.clearInterval(tid);
+                                }
+                                print[i] = alph[index];
+                                render(print);
+                            }, options.speed)
+                    });
+                    k = k == texts.length - 1 ? 0 : k + 1;
+                });
+            });
+        };
+        $('#line1').ticker();
+        $('#line2').ticker();
+        $('#line3').ticker();
+        $('#line4').ticker();
+       
+     
+
+    </script>
+</body>
+
+</html>
