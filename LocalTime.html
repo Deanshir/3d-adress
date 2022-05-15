@@ -7,36 +7,35 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap');
 
-        body {
+        /*body {
             width: 100%;
-            height:50%
-        }
+        }*/
 
         form {
             direction: rtl;
             justify-content: center;
             font-family: rubik;
             display: flex;
-            height: 60px;
+            height: 50px;
             align-items: center;
-            margin-top: -10px;
+           /* margin-top: -10px;*/
           
         }
 
         input {
-            width: 43px;
+            width: 60px;
             font-family: Rubik;
             font-size: 12pt
         }
 
-        p {
+        /*p {
             background: #444;
             color: #fff;
             font-family: rubik;
             text-align: center;
             font-size: 16pt;
             margin-top: -2px;
-        }
+        }*/
 
         #txt1,
         #txt2,
@@ -46,21 +45,14 @@
             margin: 30px;
         }
 
-        #btn{
-            height:30px;
-        }
-
-        .box {
-            display: flow;
-            margin-top: 100px;
-        }
+    
 
         #table {
             display: flex;
             flex-direction: column;
             align-items: center;
             align-content: center;
-            margin-top: -25px;
+            margin-top: 15px;
         }
 
         #line1,
@@ -69,7 +61,7 @@
         #line4 {
             cursor: pointer;
             /*overflow: hidden;*/
-            font: 25px/1 monospace;
+            font: 20px/1 monospace;
         }
 
             #line1 span,
@@ -83,10 +75,6 @@
                /* margin-right: 1px;*/
                 margin-top: 2px;
             }
-        
-        ul{
-             position: absolute;
-            z-index: 99999;}
     </style>
 
 </head>
@@ -94,25 +82,25 @@
 <body>
     <form action="/action_page.php">
         <div id="txt1">
-            <label for="appt">Select a time:</label><br />
-            <input type="time" id="telAvivCity" onchange="setHour(telAvivCity)">
+            השעה בתל אביב<br />
+            <input type="text" id="telAvivCity" onchange="setHour(telAvivCity)" placeholder="HH:MM">
         </div>
        
 
 
         <div id="txt2">
             השעה בסידני<br />
-            <input type="time" id="sidneyCity" onchange="setHour(sidneyCity)">
+            <input type="text" id="sidneyCity" onchange="setHour(sidneyCity)" placeholder="HH:MM">
         </div>
 
         <div id="txt3">
             השעה בניו-יורק<br />
-            <input type="time" id="newYorkCity" onchange="setHour(newYorkCity)">
+            <input type="text" id="newYorkCity" onchange="setHour(newYorkCity)" placeholder="HH:MM">
         </div>
 
         <div id="txt4">
             השעה במקסיקו<br />
-            <input type="time" id="mexicoCity" onchange="setHour(mexicoCity)">
+            <input type="text" id="mexicoCity" onchange="setHour(mexicoCity)" placeholder="HH:MM">
         </div>
         <!--<form action="/action_page.php">
         <label for="appt">Select a time:</label><br />
@@ -120,7 +108,6 @@
         <!--<input type="submit">-->
     </form>
 
-    <div class="box">
 
 
         <div id="table">
@@ -128,6 +115,7 @@
                 <li> DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    --:-- </li>
                 <li id="telAvivHour"> </li>
             </ul>
+
             <ul id="line2">
                 <li> PARIS       48.86,2.35    09:10   SYDNEY     -33.80,151.20   --:-- </li>
                 <li id="sydneyHour"> </li>
@@ -141,7 +129,6 @@
                 <li id="mexicoHour"> </li>
             </ul>
         </div>
-    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
     <script>
