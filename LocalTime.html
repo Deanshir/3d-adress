@@ -9,6 +9,7 @@
 
         body {
             width: 100%;
+            height:50%
         }
 
         form {
@@ -23,7 +24,7 @@
         }
 
         input {
-            width: 90px;
+            width: 43px;
             font-family: Rubik;
             font-size: 12pt
         }
@@ -87,11 +88,13 @@
 </head>
 
 <body>
-    <form>
+    <form action="/action_page.php">
         <div id="txt1">
-            השעה בתל אביב<br />
+            <label for="appt">Select a time:</label><br />
             <input type="time" id="telAvivCity" onchange="setHour(telAvivCity)">
         </div>
+       
+
 
         <div id="txt2">
             השעה בסידני<br />
@@ -107,15 +110,14 @@
             השעה במקסיקו<br />
             <input type="time" id="mexicoCity" onchange="setHour(mexicoCity)">
         </div>
-
-        <!--<div id="submit">
-            <input type="button" id="btn" value="הכנס שעות" onclick="setNewHour()">
-        </div>-->
-
+        <!--<form action="/action_page.php">
+        <label for="appt">Select a time:</label><br />
+        <input type="time" id="appt" name="appt">-->
+        <!--<input type="submit">-->
     </form>
 
     <div class="box">
-      
+
 
         <div id="table">
             <ul id="line1">
@@ -144,7 +146,7 @@
         var newYorkHour = document.getElementById("newYorkHour").innerText;
         var mexicoHour = document.getElementById("mexicoHour").innerText;
 
-        
+
 
         function setHour(id) {
             var inputValue = document.getElementById(id.id).value;
@@ -162,7 +164,7 @@
                     break;
 
                 case "newYorkCity":
-                    newYorkHour =inputValue + " ";
+                    newYorkHour = inputValue + " ";
                     console.log("newYorkHour: " + newYorkHour)
                     break;
 
@@ -223,11 +225,11 @@
                 target.click(function (e) {
                     var firstChar = texts[0].charAt(1);
                     console.log("firstChar: " + firstChar)
- //------------------------------------------------------------------------------------> החלק החשוב
- //------------------------------------------------------------------------------------> החלק החשוב
+                    //------------------------------------------------------------------------------------> החלק החשוב
+                    //------------------------------------------------------------------------------------> החלק החשוב
 
 
-            /*  *//*  *//*  //*//*  *//*שורה ראשונה*/
+                    /*  *//*  *//*  //*//*  *//*שורה ראשונה*/
                     if (firstChar == "D") {
                         console.log("telAvivHour: " + telAvivHour)
                         if (telAvivHour == "") {
@@ -238,12 +240,12 @@
                             if (telAvivHour == "16:00 ") {
                                 texts[1] = " DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    " + telAvivHour;
                             }
-                            else { texts[1] = " DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    ER:OR ";}
+                            else { texts[1] = " DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    ER:OR "; }
                         }
                         console.log("texts[1]: " + texts[1])
                     }
 
-            /*  *//*  *//*  //*//*  *//*שורה שניה*/
+                    /*  *//*  *//*  //*//*  *//*שורה שניה*/
                     else {
                         if (firstChar == "P") {
                             console.log("sydneyHour: " + sydneyHour)
@@ -260,7 +262,7 @@
                             console.log("texts[1]: " + texts[1])
                         }
 
-            /*  *//*  *//*  //*//*  *//*שורה שלישית*/
+                        /*  *//*  *//*  //*//*  *//*שורה שלישית*/
                         else {
                             if (firstChar == "F") {
                                 console.log("newYorkHour: " + newYorkHour)
@@ -277,7 +279,7 @@
                                 console.log("texts[1]: " + texts[1])
                             }
 
-            /*  *//*  *//*  //*//*  *//*שורה רביעית*/
+                            /*  *//*  *//*  //*//*  *//*שורה רביעית*/
                             else {
                                 if (firstChar == "L") {
                                     console.log("mexicoHour: " + mexicoHour)
@@ -294,11 +296,11 @@
                                     console.log("texts[1]: " + texts[1])
                                 }
                             }
-                           
+
                         }
-                       
+
                     }
-                    
+
 
 
 
@@ -331,8 +333,8 @@
         $('#line2').ticker();
         $('#line3').ticker();
         $('#line4').ticker();
-       
-     
+
+
 
     </script>
 </body>
