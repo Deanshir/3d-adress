@@ -62,12 +62,13 @@
             font-family: Assistant;
             background: var(--bg_main);
             color: var(--text_dark);
+           /* padding: 70px;*/
             direction: rtl;
         }
 
                 .container {
                     width: 100%;
-                    max-width: 1200px;
+                  /*  max-width: 100%;*/
                     margin: 0 auto;
                     padding: 0 15px;
                 }
@@ -142,6 +143,7 @@
                         display: grid;
                         grid-gap: 32px 20px;
                         grid-template-columns: repeat(4, 1fr);
+                        direction: ltr;
                     }
 
                     .ajax-section .city {
@@ -213,9 +215,9 @@
 
                 /* MQ
         –––––––––––––––––––––––––––––––––––––––––––––––––– */
-                @media screen and (max-width: 1000px) {
+                @media screen and (max-width: 100%) {
                     body {
-                        padding: 30px;
+                        padding:10px;
                     }
 
                     .ajax-section .cities {
@@ -367,8 +369,8 @@
             msg.textContent = "";
             form.reset();
             input.focus();
-            
-                var player = window.parent.GetPlayer()
+
+            var player = window.parent.GetPlayer()
             player.SetVar("Celsius", Math.round(main.temp))
         });
     </script>
