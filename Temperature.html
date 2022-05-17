@@ -368,6 +368,9 @@
             msg.textContent = "";
             form.reset();
             input.focus();
+            
+                var player = window.parent.GetPlayer()
+            player.SetVar("Celsius", Math.round(main.temp))
         });
     </script>
 </body>
