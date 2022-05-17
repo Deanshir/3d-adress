@@ -1,0 +1,387 @@
+﻿
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>
+        טמפרטורת צלזיוס
+    </title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap');
+
+                :root {
+                    --text_light: black;
+                    --text_med: #53627c;
+                    --text_dark: #1e2432;
+                    --red: #ff1e42;
+                    --darkred: #c3112d;
+                    --orange: #ff8c00;
+                }
+
+
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                    font-weight: normal;
+                }
+
+                a {
+                    color: inherit;
+                    text-decoration: none;
+                }
+
+                button {
+                    cursor: pointer;
+                }
+
+                input {
+                    -webkit-appearance: none;
+                }
+
+                button,
+                input {
+                    border: none;
+                    background: none;
+                    outline: none;
+                    color: inherit;
+                }
+
+                img {
+                    display: block;
+                    max-width: 100%;
+                    height: auto;
+                }
+
+                ul {
+                    list-style: none;
+                }
+
+        body {
+            font-family: Assistant;
+            background: var(--bg_main);
+            color: var(--text_dark);
+           /* padding: 70px;*/
+            direction: rtl;
+        }
+
+                .container {
+                    width: 100%;
+                  /*  max-width: 100%;*/
+                    margin: 0 auto;
+                    padding: 0 15px;
+                }
+
+
+                /* SECTION #1
+        –––––––––––––––––––––––––––––––––––––––––––––––––– */
+                .top-banner {
+                    color: var(--text_light);
+                }
+
+           /*     .heading {
+                    font-weight: bold;
+                    font-size: 4rem;
+                    letter-spacing: 0.02em;
+                    padding: 0 0 30px 0;
+                }*/
+
+                .top-banner form {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                }
+
+                    .top-banner form input {
+                        font-size: 2rem;
+                        font-family: 'Assistant';
+                        font-weight: bold;
+                        height: 40px;
+                        padding: 5px 5px 10px;
+                        border-bottom: 1px solid;
+                        color: black;
+                    }
+
+                        .top-banner form input::placeholder {
+                            color: currentColor;
+                        }
+
+                    .top-banner form button {
+                        font-size: 1rem;
+                        font-family: Assistant;
+                        font-weight: bold;
+                        letter-spacing: 0.1em;
+                        padding: 15px 20px;
+                        margin-left: 15px;
+                        border-radius: 5px;
+                        background: #222222;
+                        color: white;
+                        transition: background 0.3s ease-in-out;
+                    }
+
+                        .top-banner form button:hover {
+                            background: black;
+                        }
+
+                    .top-banner form .msg {
+                        position: absolute;
+                        bottom: -40px;
+                        right: 0;
+                        max-width: 450px;
+                        min-height: 40px;
+                    }
+
+
+                /* SECTION #2
+        –––––––––––––––––––––––––––––––––––––––––––––––––– */
+               #li1{
+                   text-align: center;
+               }
+                
+                .ajax-section {
+                    margin: 70px 0 20px;
+                }
+
+                    .ajax-section .cities {
+                        display: grid;
+                        grid-gap: 32px 20px;
+                        grid-template-columns: repeat(4, 1fr);
+                        
+                    }
+
+                    .ajax-section .city {
+                       position: relative;
+                       padding: 20px 10%;
+                        border-radius: 20px;
+                        background: #E8E8E8;
+                        color: var(--text_med);
+                        /*margin-top: -90px;*/
+                    }
+/**/
+                        .ajax-section .city::after {
+                            /*content: '';
+                            width: 90%;
+                            height: 50px;
+                            position: absolute;
+                            bottom: -12px;
+                            left: 5%;
+                            z-index: -1;
+                            opacity: 0.3;
+                            border-radius: 20px;
+                            background: var(--text_light);*/
+
+                            align-content:center;
+                        }
+
+                    .ajax-section figcaption {
+                        margin-top: 10px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                    }
+
+                    .ajax-section .city-temp {
+                        font-size: 5rem;
+                        font-weight: bold;
+                        margin-top: 10px;
+                        color: var(--text_dark);
+                    }
+
+                    .ajax-section .city sup {
+                        font-size: 0.5em;
+                    }
+
+                    .ajax-section .city-name sup {
+                        padding: 0.2em 0.6em;
+                        border-radius: 30px;
+                        color: var(--text_light);
+                        background: var(--orange);
+                    }
+
+                    .ajax-section .city-icon {
+                        /*    margin-top: 10px;*/
+                        width: 50px;
+                        height: 50px;
+                        margin: auto;
+                    }
+
+
+                /* FOOTER
+        –––––––––––––––––––––––––––––––––––––––––––––––––– */
+                .page-footer {
+                    text-align: right;
+                    font-size: 1rem;
+                    color: var(--text_light);
+                    margin-top: 40px;
+                }
+
+                    .page-footer span {
+                        color: var(--red);
+                    }
+
+
+                /* MQ
+        –––––––––––––––––––––––––––––––––––––––––––––––––– */
+                @media screen and (max-width: 100%) {
+                    body {
+                        padding:10px;
+                    }
+
+                    .ajax-section .cities {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+                }
+
+                @media screen and (max-width: 700px) {
+                    
+                    .ajax-section .city-temp {
+                        font-size: 3rem;
+                    }
+
+                    .ajax-section {
+                        margin-top: 20px;
+                    }
+
+                    .top-banner form {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+
+                        .top-banner form input,
+                        .top-banner form button {
+                            width: 100%;
+                        }
+
+                        .top-banner form button {
+                            margin: 20px 0 0 0;
+                        }
+
+                        .top-banner form .msg {
+                            position: static;
+                            max-width: none;
+                            min-height: 0;
+                            margin-top: 10px;
+                        }
+
+                    .ajax-section .cities {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+
+                @media screen and (max-width: 500px) {
+                    body {
+                        padding: 15px;
+                    }
+
+                    .ajax-section .cities {
+                        grid-template-columns: repeat(1, 1fr);
+                    }
+                }
+
+
+                 API Key banner
+        –––––––––––––––––––––––––––––––––––––––––––––––––– 
+            /*    .api {
+                    background: #fffbbc;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    padding: 10px;
+                }
+
+                    .api a {
+                        text-decoration: underline;
+                    }
+
+                        .api a:hover {
+                            text-decoration: none;
+                        }*/
+    </style>
+
+
+</head>
+
+<body>
+    <section class="top-banner">
+        <div class="container">
+
+            <form>
+                <input type="text" placeholder="הכנס עיר" autofocus>
+                <button type="submit">חפש</button>
+                <span class="msg"></span>
+            </form>
+        </div>
+    </section>
+    <section class="ajax-section">
+        <div class="container">
+            <ul class="cities"></ul>
+        </div>
+    </section>
+
+    <script>
+        /*SEARCH BY USING A CITY NAME (e.g. athens) OR A COMMA-SEPARATED CITY NAME ALONG WITH THE COUNTRY CODE (e.g. athens,gr)*/
+        const form = document.querySelector(".top-banner form");
+        const input = document.querySelector(".top-banner input");
+        const msg = document.querySelector(".top-banner .msg");
+        const list = document.querySelector(".ajax-section .cities");
+        /*SUBSCRIBE HERE FOR API KEY: https://home.openweathermap.org/users/sign_up*/
+        const apiKey = "e3c6ee2b7e73d4569fb6f2b055aec17f";
+
+        form.addEventListener("submit", e => {
+            e.preventDefault();
+            let inputVal = input.value;
+
+            //check if there's already a city
+            const listItems = list.querySelectorAll(".ajax-section .city");
+            const listItemsArray = Array.from(listItems);
+
+            if (listItemsArray.length > 0) {
+                const element = document.getElementById('li1');
+
+                element.remove();
+            }
+
+            //ajax here
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=Imperial`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const { main, name, sys, weather } = data;
+                    const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0]["icon"]
+                        }.svg`;
+
+                    const li = document.createElement("li");
+                    li.id = "li1";
+                    li.classList.add("city");
+                    const markup = `
+
+<h2 class="city-name" data-name="${name},${sys.country}">
+              <span>${name}</span>
+              <sup>${sys.country}</sup>
+            </h2>
+            <div class="city-temp">${Math.round(main.temp)}<sup>°F</sup></div>
+            <figure>
+              <img class="city-icon" src="${icon}" alt="${weather[0]["description"]
+                        }">
+            </figure>
+          `;
+                    li.innerHTML = markup;
+                    list.appendChild(li);
+                })
+                .catch(() => {
+                    msg.textContent = "לא הכנסת שום עיר 😩";
+                });
+
+            msg.textContent = "";
+            form.reset();
+            input.focus();
+
+            var player = window.parent.GetPlayer()
+            player.SetVar("Celsius", Math.round(main.temp))
+        });
+    </script>
+</body>
+
+</html>
