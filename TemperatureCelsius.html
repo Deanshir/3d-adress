@@ -369,6 +369,13 @@
           `;
                     li.innerHTML = markup;
                     list.appendChild(li);
+
+
+                    var X = Math.round(main.temp) ;
+                    var Y = 9/5;
+
+                    var Fahrenheit = (X * Y)+31;
+                    console.log("Fahrenheit: " + Fahrenheit)
                 })
                 .catch(() => {
                     msg.textContent = "לא הכנסת שום עיר 😩";

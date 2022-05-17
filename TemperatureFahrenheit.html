@@ -369,6 +369,12 @@
           `;
                     li.innerHTML = markup;
                     list.appendChild(li);
+
+                    var X = Math.round(main.temp) - 32;
+                    var Y = 5 / 9;
+
+                    var Celsius = Math.ceil(X * Y);
+                    console.log("Celsius: " + Celsius)
                 })
                 .catch(() => {
                     msg.textContent = "לא הכנסת שום עיר 😩";
@@ -377,6 +383,8 @@
             msg.textContent = "";
             form.reset();
             input.focus();
+
+           
 
             var player = window.parent.GetPlayer()
             player.SetVar("Celsius", Math.round(main.temp))
