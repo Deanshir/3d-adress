@@ -7,12 +7,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap');
 
-         body {
+        /*body {
+            width: 100%;
+        }*/
+        body {
             min-height: 100vh;
-/*            max-width: 100%;
-*/            margin: 0 auto;
+            min-width: 100vh;
+            margin: 0 auto;
         }
-
         form {
             direction: rtl;
             justify-content: center;
@@ -25,9 +27,9 @@
         }
 
         input {
-            width: 70px;
+            width: 60px;
             font-family: Rubik;
-            font-size: 14pt
+            font-size: 12pt
         }
 
         /*p {
@@ -45,8 +47,6 @@
         #txt4 {
             float: left;
             margin: 30px;
-            font-size: 16pt;
-
         }
 
     
@@ -112,24 +112,22 @@
         <!--<input type="submit">-->
     </form>
 
-
-
         <div id="table">
             <ul id="line1">
-                <li> DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    --:-- </li>
+                <li> DUBAI       25.25N , 55.36E   13:25   TEL-AVIV    32.08N , 34.79E    --:-- </li>
                 <li id="telAvivHour"> </li>
             </ul>
 
             <ul id="line2">
-                <li> PARIS       48.86,2.35    09:10   SYDNEY     -33.80,151.20   --:-- </li>
+                <li> PARIS       48.86N , 2.35E    09:10   SYDNEY      33.80S , 151.20E   --:-- </li>
                 <li id="sydneyHour"> </li>
             </ul>
             <ul id="line3">
-                <li> FRANKFURT   50.21,8.74    03:45   NEW-YORK    40.82,-73.99   --:-- </li>
+                <li> FRANKFURT   50.21N , 8.74E    03:45   NEW-YORK    40.82N , 73.99W    --:-- </li>
                 <li id="newYorkHour"> </li>
             </ul>
             <ul id="line4">
-                <li> LONDON      51.53,-0.04   22:30   MEXICO      19.56,-99.10   --:-- </li>
+                <li> LONDON      51.53N , 0.04W    22:30   MEXICO      19.56N , 99.10W    --:-- </li>
                 <li id="mexicoHour"> </li>
             </ul>
         </div>
@@ -228,14 +226,14 @@
                     if (firstChar == "D") {
                         console.log("telAvivHour: " + telAvivHour)
                         if (telAvivHour == "") {
-                            texts[1] = " DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    HH:MM ";
+                            texts[1] = " DUBAI       25.25N , 55.36E   13:25   TEL-AVIV    32.08N , 34.79E    HH:MM ";
                         }
                         else {
                             /*לעדכן שעה נכונה*/
-                            if (telAvivHour == "16:00 ") {
-                                texts[1] = " DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    " + telAvivHour;
+                            if (telAvivHour == "13:04 ") {
+                                texts[1] = " DUBAI       25.25N , 55.36E   13:25   TEL-AVIV    32.08N , 34.79E    " + telAvivHour;
                             }
-                            else { texts[1] = " DUBAI       25.25,55.36   13:25   TEL-AVIV    32.08,34.79    ER:OR "; }
+                            else { texts[1] = " DUBAI       25.25N , 55.36E   13:25   TEL-AVIV    32.08N , 34.79E    ER:OR "; }
                         }
                         console.log("texts[1]: " + texts[1])
                     }
@@ -245,14 +243,14 @@
                         if (firstChar == "P") {
                             console.log("sydneyHour: " + sydneyHour)
                             if (sydneyHour == "") {
-                                texts[1] = " PARIS       48.86,2.35    09:10   SYDNEY     -33.80,151.20   HH:MM ";
+                                texts[1] = " PARIS       48.86N , 2.35E    09:10   SYDNEY      33.80S , 151.20E   HH:MM ";
                             }
                             else {
                                 /*לעדכן שעה נכונה*/
-                                if (sydneyHour == "16:00 ") {
-                                    texts[1] = " PARIS       48.86,2.35    09:10   SYDNEY     -33.80,151.20   " + sydneyHour;
+                                if (sydneyHour == "19:04 ") {
+                                    texts[1] = " PARIS       48.86N , 2.35E    09:10   SYDNEY      33.80S , 151.20E   " + sydneyHour;
                                 }
-                                else { texts[1] = " PARIS       48.86,2.35    09:10   SYDNEY     -33.80,151.20   ER:OR "; }
+                                else { texts[1] = " PARIS       48.86N , 2.35E    09:10   SYDNEY      33.80S , 151.20E   ER:OR "; }
                             }
                             console.log("texts[1]: " + texts[1])
                         }
@@ -262,14 +260,14 @@
                             if (firstChar == "F") {
                                 console.log("newYorkHour: " + newYorkHour)
                                 if (newYorkHour == "") {
-                                    texts[1] = " FRANKFURT   50.21,8.74    03:45   NEW-YORK    40.82,-73.99   HH:MM ";
+                                    texts[1] = " FRANKFURT   50.21N , 8.74E    03:45   NEW-YORK    40.82N , 73.99W    HH:MM ";
                                 }
                                 else {
                                     /*לעדכן שעה נכונה*/
-                                    if (newYorkHour == "16:00 ") {
-                                        texts[1] = " FRANKFURT   50.21,8.74    03:45   NEW-YORK    40.82,-73.99   " + newYorkHour;
+                                    if (newYorkHour == "00:13 ") {
+                                        texts[1] = " FRANKFURT   50.21N , 8.74E    03:45   NEW-YORK    40.82N , 73.99W    " + newYorkHour;
                                     }
-                                    else { texts[1] = " FRANKFURT   50.21,8.74    03:45   NEW-YORK    40.82,-73.99   ER:OR "; }
+                                    else { texts[1] = " FRANKFURT   50.21N , 8.74E    03:45   NEW-YORK    40.82N , 73.99W    ER:OR "; }
                                 }
                                 console.log("texts[1]: " + texts[1])
                             }
@@ -279,14 +277,14 @@
                                 if (firstChar == "L") {
                                     console.log("mexicoHour: " + mexicoHour)
                                     if (mexicoHour == "") {
-                                        texts[1] = " LONDON      51.53,-0.04   22:30   MEXICO      19.56,-99.10   HH:MM ";
+                                        texts[1] = " LONDON      51.53N , 0.04W    22:30   MEXICO      19.56N , 99.10W    HH:MM ";
                                     }
                                     else {
                                         /*לעדכן שעה נכונה*/
-                                        if (mexicoHour == "16:00 ") {
-                                            texts[1] = " LONDON      51.53,-0.04   22:30   MEXICO      19.56,-99.10   " + mexicoHour;
+                                        if (mexicoHour == "15:54 ") {
+                                            texts[1] = " LONDON      51.53N , 0.04W    22:30   MEXICO      19.56N , 99.10W    " + mexicoHour;
                                         }
-                                        else { texts[1] = " LONDON      51.53,-0.04   22:30   MEXICO      19.56,-99.10   ER:OR "; }
+                                        else { texts[1] = " LONDON      51.53N , 0.04W    22:30   MEXICO      19.56N , 99.10W    ER:OR "; }
                                     }
                                     console.log("texts[1]: " + texts[1])
                                 }
